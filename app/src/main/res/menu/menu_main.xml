@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/toCouseRegisted"
+        android:title="รายวิชาที่ลงทะเบียน" />
+    <item
+        android:id="@+id/toOthers"
+        android:title="อื่น ๆ" />
 </menu>
