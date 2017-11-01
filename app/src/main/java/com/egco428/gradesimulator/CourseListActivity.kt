@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.course_row.view.*
 
 class CourseListActivity : AppCompatActivity() {
 
-    val courseArray = ArrayList<course>()
+    private val courseArray = ArrayList<Course>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +26,16 @@ class CourseListActivity : AppCompatActivity() {
     }
 
     private fun setListView(){
-        courseArray.add(course("General Education for Human Development", "MUGE 101","GEN"))
-        courseArray.add(course("Social Studies for Human Development", "MUGE 102","GEN"))
-        courseArray.add(course("Arts and Science for Human Development", "MUGE 103","GEN"))
-        courseArray.add(course("Philosophy,Ethics and Laws for Engineers", "EGID 300","GEN"))
-        courseArray.add(course("Art of Using Thai Language in Communication", "LATH 100","ART"))
-        courseArray.add(course("English Level 1", "LAEN 103","ART"))
-        courseArray.add(course("English Level 2", "LAEN 104","ART"))
-        courseArray.add(course("English Level 3", "LAEN 105","ART"))
-        courseArray.add(course("English Level 4", "LAEN 106","ART"))
-        val cookiesArrayAdapter = CookiesArrayAdapter(this,0,courseArray!!)
+        courseArray.add(Course("MUGE 101","General Education for Human Development", "GEN"))
+        courseArray.add(Course("MUGE 102","Social Studies for Human Development", "GEN"))
+        courseArray.add(Course("MUGE 103","Arts and Science for Human Development", "GEN"))
+        courseArray.add(Course("EGID 300","Philosophy,Ethics and Laws for Engineers", "GEN"))
+        courseArray.add(Course("LATH 100","Art of Using Thai Language in Communication", "ART"))
+        courseArray.add(Course("LAEN 103","English Level 1", "ART"))
+        courseArray.add(Course("LAEN 104","English Level 2", "ART"))
+        courseArray.add(Course("LAEN 105","English Level 3", "ART"))
+        courseArray.add(Course("LAEN 106","English Level 4", "ART"))
+        val cookiesArrayAdapter = CookiesArrayAdapter(this,0, courseArray)
         courseListView.adapter = cookiesArrayAdapter
     }
 
@@ -60,7 +60,7 @@ class CourseListActivity : AppCompatActivity() {
         }
 
     }
-    private class CookiesArrayAdapter(var context: Context, resource: Int, var objects: ArrayList<course>) : BaseAdapter() {
+    private class CookiesArrayAdapter(var context: Context, resource: Int, var objects: ArrayList<Course>) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view: View
             val course = objects[position]
@@ -76,8 +76,8 @@ class CourseListActivity : AppCompatActivity() {
             }
             val viewHolder = view.tag as ViewHolder
 
-            viewHolder.titleTextView.text = course.title
-            viewHolder.codeTextView.text = course.code
+            viewHolder.titleTextView.text = course.name
+            viewHolder.codeTextView.text = course.courseNo
 
             return view
         }
