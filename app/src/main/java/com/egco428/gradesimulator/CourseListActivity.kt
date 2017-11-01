@@ -9,9 +9,6 @@ import android.view.*
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_course_list.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.course_row.view.*
 
 class CourseListActivity : AppCompatActivity() {
 
