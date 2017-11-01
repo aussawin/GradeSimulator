@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_course_list.*
 
 class CourseListActivity : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class CourseListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_course_list)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         setListView()
+
 
     }
 
