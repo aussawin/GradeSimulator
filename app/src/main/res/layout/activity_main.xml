@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/view3"
+            android:id="@+id/mainLine1"
             android:layout_width="1000dp"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toBottomOf="@+id/header1" />
 
         <View
-            android:id="@+id/view4"
+            android:id="@+id/mainLine2"
             android:layout_width="1000dp"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
@@ -42,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/header3" />
 
         <View
-            android:id="@+id/view6"
+            android:id="@+id/mainLine3"
             android:layout_width="1dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
@@ -51,16 +51,16 @@
             app:layout_constraintTop_toBottomOf="@+id/category1" />
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/mainLine4"
             android:layout_width="1dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintStart_toStartOf="@+id/mainLine3"
             app:layout_constraintTop_toBottomOf="@+id/category2" />
 
         <View
-            android:id="@+id/view5"
+            android:id="@+id/mainLine5"
             android:layout_width="1000dp"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
@@ -76,7 +76,7 @@
             android:text="GPA : "
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintTop_toBottomOf="@+id/mainLine1" />
 
         <TextView
             android:id="@+id/labelCredits"
@@ -99,7 +99,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
+            app:layout_constraintTop_toBottomOf="@+id/mainLine1" />
 
         <TextView
             android:id="@+id/valueCredits"
@@ -134,7 +134,7 @@
             android:text="ติดโปรต่ำ"
             android:textColor="@android:color/background_dark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view5" />
+            app:layout_constraintTop_toBottomOf="@+id/mainLine5" />
 
         <TextView
             android:id="@+id/labelHigh"
@@ -168,7 +168,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view5" />
+            app:layout_constraintTop_toBottomOf="@+id/mainLine5" />
 
         <TextView
             android:id="@+id/valueHigh"
@@ -213,7 +213,7 @@
             android:textColor="@android:color/background_dark"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/header3"
-            app:layout_constraintTop_toBottomOf="@+id/view4" />
+            app:layout_constraintTop_toBottomOf="@+id/mainLine2" />
 
         <TextView
             android:id="@+id/category1_1"
@@ -223,7 +223,7 @@
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชามนุษย์ศาสตร์ สังคมศาสตร์"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintStart_toEndOf="@+id/mainLine3"
             app:layout_constraintTop_toBottomOf="@+id/category1" />
 
         <TextView
@@ -234,7 +234,7 @@
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชาภาษา"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintStart_toEndOf="@+id/mainLine3"
             app:layout_constraintTop_toBottomOf="@+id/category1_1" />
 
         <TextView
@@ -245,11 +245,11 @@
             android:layout_marginTop="8dp"
             android:text="กลุ่มวิชาวิทยาศาสตร์ คณิตศาสตร์"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintStart_toEndOf="@+id/mainLine3"
             app:layout_constraintTop_toBottomOf="@+id/category1_2" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/mainText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -260,23 +260,23 @@
             app:layout_constraintTop_toBottomOf="@+id/category1" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/mainText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/12"
             android:textAlignment="viewStart"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintStart_toStartOf="@+id/mainText1"
+            app:layout_constraintTop_toBottomOf="@+id/mainText1" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/mainText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/6"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintStart_toStartOf="@+id/mainText2"
+            app:layout_constraintTop_toBottomOf="@+id/mainText2" />
 
         <TextView
             android:id="@+id/category2"
@@ -297,7 +297,7 @@
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชาแกน"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/mainLine4"
             app:layout_constraintTop_toBottomOf="@+id/category2" />
 
         <TextView
@@ -308,7 +308,7 @@
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชาเฉพาะด้าน"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/mainLine4"
             app:layout_constraintTop_toBottomOf="@+id/category2_1" />
 
         <TextView
@@ -319,35 +319,35 @@
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชาเฉพาะเลือก"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/mainLine4"
             app:layout_constraintTop_toBottomOf="@+id/category2_2" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/mainText4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/32"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintStart_toStartOf="@+id/mainText3"
             app:layout_constraintTop_toBottomOf="@+id/category2" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/mainText5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/57"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintStart_toStartOf="@+id/mainText4"
+            app:layout_constraintTop_toBottomOf="@+id/mainText4" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/mainText6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/12"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintStart_toStartOf="@+id/mainText5"
+            app:layout_constraintTop_toBottomOf="@+id/mainText5" />
 
         <TextView
             android:id="@+id/valueCatagory1_1"
@@ -431,22 +431,22 @@
             app:layout_constraintTop_toBottomOf="@+id/category2_3" />
 
         <TextView
-            android:id="@+id/textView37"
+            android:id="@+id/mainText7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/1"
-            app:layout_constraintStart_toStartOf="@+id/textView15"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            app:layout_constraintStart_toStartOf="@+id/mainText6"
+            app:layout_constraintTop_toBottomOf="@+id/mainText6" />
 
         <TextView
-            android:id="@+id/textView38"
+            android:id="@+id/mainText8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="/6"
-            app:layout_constraintStart_toStartOf="@+id/textView37"
-            app:layout_constraintTop_toBottomOf="@+id/textView37" />
+            app:layout_constraintStart_toStartOf="@+id/mainText7"
+            app:layout_constraintTop_toBottomOf="@+id/mainText7" />
 
         <TextView
             android:id="@+id/valueCategory2"
@@ -471,7 +471,7 @@
             app:layout_constraintTop_toBottomOf="@+id/valueCategory2" />
 
         <TextView
-            android:id="@+id/endPoint"
+            android:id="@+id/valueCategory4"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginTop="10dp"
