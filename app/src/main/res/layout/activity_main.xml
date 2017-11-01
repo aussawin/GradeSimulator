@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:fillViewport="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:scrollbars="vertical">
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -25,51 +27,48 @@
 
         <View
             android:id="@+id/view3"
-            android:layout_width="406dp"
+            android:layout_width="1000dp"
             android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.481"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintStart_toStartOf="@+id/header1"
+            app:layout_constraintTop_toBottomOf="@+id/header1" />
 
         <View
             android:id="@+id/view4"
-            android:layout_width="406dp"
+            android:layout_width="1000dp"
             android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView26" />
+            app:layout_constraintStart_toStartOf="@+id/header3"
+            app:layout_constraintTop_toBottomOf="@+id/header3" />
 
         <View
             android:id="@+id/view6"
             android:layout_width="1dp"
             android:layout_height="80dp"
-            android:layout_marginStart="25dp"
             android:layout_marginTop="8dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+            app:layout_constraintStart_toStartOf="@+id/category1"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
 
         <View
             android:id="@+id/view5"
-            android:layout_width="406dp"
+            android:layout_width="1000dp"
             android:layout_height="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.481"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            app:layout_constraintStart_toStartOf="@+id/header2"
+            app:layout_constraintTop_toBottomOf="@+id/header2" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/labelGPA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -80,65 +79,54 @@
             app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/labelCredits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="191dp"
-            tools:layout_editor_absoluteY="630dp" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="หน่วยกิตรวม :"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintStart_toStartOf="@+id/labelGPA"
+            app:layout_constraintTop_toBottomOf="@+id/labelGPA" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/valueGPA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="230dp"
             android:layout_marginTop="10dp"
             android:text="2.97"
             android:textAlignment="viewEnd"
-            android:textColor="?attr/colorError"
+            android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/valueCredits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="230dp"
             android:layout_marginTop="10dp"
-            android:text="25"
+            android:text="130"
             android:textAlignment="viewEnd"
             android:textColor="@android:color/background_dark"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintEnd_toEndOf="@+id/valueGPA"
+            app:layout_constraintTop_toBottomOf="@+id/valueGPA" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/header2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="สถานะของนักศึกษา"
             android:textColor="@android:color/background_dark"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintStart_toStartOf="@+id/header1"
+            app:layout_constraintTop_toBottomOf="@+id/labelCredits" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/labelLow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -149,115 +137,350 @@
             app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/labelHigh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="ติดโปรสูง"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+            app:layout_constraintStart_toStartOf="@+id/labelLow"
+            app:layout_constraintTop_toBottomOf="@+id/labelLow" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/labelHonor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="เกียรตินิยม"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+            app:layout_constraintStart_toStartOf="@+id/labelHigh"
+            app:layout_constraintTop_toBottomOf="@+id/labelHigh" />
 
         <TextView
-            android:id="@+id/textView23"
+            android:id="@+id/valueLow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="230dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="ไม่"
             android:textColor="@android:color/holo_blue_light"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <TextView
-            android:id="@+id/textView24"
+            android:id="@+id/valueHigh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="230dp"
             android:layout_marginTop="10dp"
             android:text="ไม่"
             android:textColor="@android:color/holo_blue_light"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+            app:layout_constraintEnd_toEndOf="@+id/valueLow"
+            app:layout_constraintTop_toBottomOf="@+id/valueLow" />
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/valueHonor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="230dp"
             android:layout_marginTop="10dp"
             android:text="ไม่"
-            android:textColor="?attr/colorError"
+            android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView24" />
+            app:layout_constraintEnd_toEndOf="@+id/valueHigh"
+            app:layout_constraintTop_toBottomOf="@+id/valueHigh" />
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/header3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="จำนวนหน่วยกิตของแต่ละหมวดวิชา"
             android:textColor="@android:color/background_dark"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+            app:layout_constraintStart_toStartOf="@+id/header2"
+            app:layout_constraintTop_toBottomOf="@+id/labelHonor" />
 
         <TextView
-            android:id="@+id/textView27"
+            android:id="@+id/category1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="หมวดวิชาศึกษาทั่วไป"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/header3"
             app:layout_constraintTop_toBottomOf="@+id/view4" />
 
         <TextView
-            android:id="@+id/textView29"
+            android:id="@+id/category1_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชามนุษย์ศาสตร์ สังคมศาสตร์"
+            android:textColor="@android:color/background_dark"
             app:layout_constraintStart_toEndOf="@+id/view6"
-            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
 
         <TextView
-            android:id="@+id/textView30"
+            android:id="@+id/category1_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="กลุ่มวิชาภาษา"
+            android:textColor="@android:color/background_dark"
             app:layout_constraintStart_toEndOf="@+id/view6"
-            app:layout_constraintTop_toBottomOf="@+id/textView29" />
+            app:layout_constraintTop_toBottomOf="@+id/category1_1" />
 
         <TextView
-            android:id="@+id/textView31"
+            android:id="@+id/category1_3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
             android:text="กลุ่มวิชาวิทยาศาสตร์ คณิตศาสตร์"
+            android:textColor="@android:color/background_dark"
             app:layout_constraintStart_toEndOf="@+id/view6"
-            app:layout_constraintTop_toBottomOf="@+id/textView30" />
+            app:layout_constraintTop_toBottomOf="@+id/category1_2" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="/12"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toEndOf="@+id/valueCatagory1_1"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/12"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/6"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/category2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="หมวดวิชาเฉพาะด้าน"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/category1"
+            app:layout_constraintTop_toBottomOf="@+id/category1_3" />
+
+        <TextView
+            android:id="@+id/category2_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาแกน"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <TextView
+            android:id="@+id/category2_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาเฉพาะด้าน"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/category2_1" />
+
+        <TextView
+            android:id="@+id/category2_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาเฉพาะเลือก"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/category2_2" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/32"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/57"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/12"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/valueCatagory1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:text="10"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toEndOf="@+id/category1_1"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <TextView
+            android:id="@+id/valueCatagory1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="12"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory1_1"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory1_1" />
+
+        <TextView
+            android:id="@+id/valueCatagory1_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="6"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory1_2"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory1_2" />
+
+        <TextView
+            android:id="@+id/valueCatagory2_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="32"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory1_3"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <TextView
+            android:id="@+id/valueCatagory2_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="57"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory2_1"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory2_1" />
+
+        <TextView
+            android:id="@+id/valueCatagory2_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="9"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory2_2"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory2_2" />
+
+        <TextView
+            android:id="@+id/category3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="การฝึกงาน"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/category2"
+            app:layout_constraintTop_toBottomOf="@+id/category2_3" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/1"
+            app:layout_constraintStart_toStartOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/textView38"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/6"
+            app:layout_constraintStart_toStartOf="@+id/textView37"
+            app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+        <TextView
+            android:id="@+id/valueCategory2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="1"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory2_3"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory2_3" />
+
+        <TextView
+            android:id="@+id/valueCategory3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="3"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCategory2"
+            app:layout_constraintTop_toBottomOf="@+id/valueCategory2" />
+
+        <TextView
+            android:id="@+id/endPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginTop="10dp"
+            android:text="หมวดวิชาเสรี"
+            android:textColor="@android:color/background_dark"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/category3"
+            app:layout_constraintTop_toBottomOf="@+id/category3" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
