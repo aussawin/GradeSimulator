@@ -33,9 +33,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-<<<<<<< HEAD
+
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-=======
+
     implementation 'com.android.support:design:26.1.0'
->>>>>>> remotes/origin/develop
+
 }

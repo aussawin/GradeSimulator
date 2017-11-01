@@ -16,11 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
         <activity android:name=".CourseRegistedActivity"></activity>
-=======
+
         <activity android:name=".CourseListActivity"></activity>
->>>>>>> remotes/origin/develop
+
     </application>
 
 </manifest>
