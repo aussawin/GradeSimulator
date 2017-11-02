@@ -12,6 +12,6 @@ class ExpandableListDataPump {
         val y1s2: List<Course> = (1..5).map { Course("S2_NO$it", "S2_SUBJ$it") }
         expandableListDetail.put("Year1Semester1", y1s1)
         expandableListDetail.put("Year1Semester2", y1s2)
-        return expandableListDetail;
+        return expandableListDetail
     }
 }

@@ -47,16 +47,16 @@ class CourseListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        if(item!!.itemId == R.id.saveBtn){
-            finish()
-            return true
-        }
-        else if(item!!.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        else {
-            return super.onOptionsItemSelected(item)
+        return when {
+            item!!.itemId == R.id.saveBtn -> {
+                finish()
+                true
+            }
+            item.itemId == android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
 
     }
@@ -94,9 +94,7 @@ class CourseListActivity : AppCompatActivity() {
             return position.toLong()
         }
 
-        private class ViewHolder(val titleTextView: TextView, val codeTextView: TextView){
-
-        }
+        private class ViewHolder(val titleTextView: TextView, val codeTextView: TextView)
 
     }
 }

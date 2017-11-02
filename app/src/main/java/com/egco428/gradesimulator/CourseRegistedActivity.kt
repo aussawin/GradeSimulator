@@ -14,21 +14,21 @@ import kotlinx.android.synthetic.main.activity_course_registed.*
 class CourseRegistedActivity : AppCompatActivity() {
 
 //    var expandableListView: ExpandableListView = null
-    var expandableListAdapter: ExpandableListAdapter? = null
-    var expandableListTitle: List<String>? = null
-    var expandableListDetail: HashMap<String, List<Course>>? = null
+    private var expandableListAdapter: ExpandableListAdapter? = null
+    private var expandableListTitle: List<String>? = null
+    private var expandableListDetail: HashMap<String, List<Course>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_registed)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val MyexpandableListView = expandableListView
+        val myExpandableListView = expandableListView
         expandableListDetail = ExpandableListDataPump().getData()
         expandableListTitle = expandableListDetail!!.keys.toList()
         expandableListAdapter = CustomExpandableListAdapter(this, expandableListTitle!!, expandableListDetail!!)
 //        expandableListView.setAdapter(expandableListAdapter)
-        MyexpandableListView.setAdapter(expandableListAdapter)
+        myExpandableListView.setAdapter(expandableListAdapter)
 
 
 
@@ -44,7 +44,7 @@ class CourseRegistedActivity : AppCompatActivity() {
             startActivity(intentToCourseList)
             return true
         }
-        else if(item!!.itemId == android.R.id.home){
+        else if(item.itemId == android.R.id.home){
             finish()
             return true
         }

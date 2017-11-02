@@ -24,6 +24,7 @@ class CustomExpandableListAdapter(private val context: Context,
         return expandedListPosition.toLong()
     }
 
+    @SuppressLint("InflateParams")
     override fun getChildView(listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, ViewGroup: ViewGroup?): View {
         val subjCode: String = getChild(listPosition, expandedListPosition).courseNo
         val subjName: String = getChild(listPosition, expandedListPosition).name
@@ -49,7 +50,7 @@ class CustomExpandableListAdapter(private val context: Context,
 //            }
 //        }
         val subjCodeView = tempConvertView!!.findViewById<View>(R.id.subjectCode) as TextView
-        val subjNameView = tempConvertView!!.findViewById<View>(R.id.subjectName) as TextView
+        val subjNameView = tempConvertView.findViewById<View>(R.id.subjectName) as TextView
         subjNameView.text = subjName
         subjCodeView.text = subjCode
         return tempConvertView
@@ -87,11 +88,11 @@ class CustomExpandableListAdapter(private val context: Context,
     }
 
     override fun hasStableIds(): Boolean {
-        return false;
+        return false
     }
 
     override fun isChildSelectable(p0: Int, p1: Int): Boolean {
-        return true;
+        return true
     }
 
 }

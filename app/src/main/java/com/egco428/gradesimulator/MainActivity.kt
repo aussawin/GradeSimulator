@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item!!.itemId == R.id.toCouseRegisted){
-            val intent = Intent(this,CourseRegistedActivity::class.java)
+            val intent = Intent(this, CourseRegistedActivity::class.java)
             startActivity(intent)
             return true
         }
