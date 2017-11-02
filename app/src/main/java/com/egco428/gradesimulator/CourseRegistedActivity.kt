@@ -10,7 +10,6 @@ import android.widget.ExpandableListAdapter
 import android.widget.ListAdapter
 import kotlinx.android.synthetic.main.activity_course_registed.*
 
-
 class CourseRegistedActivity : AppCompatActivity() {
 
 //    var expandableListView: ExpandableListView = null
@@ -29,9 +28,6 @@ class CourseRegistedActivity : AppCompatActivity() {
         expandableListAdapter = CustomExpandableListAdapter(this, expandableListTitle!!, expandableListDetail!!)
 //        expandableListView.setAdapter(expandableListAdapter)
         myExpandableListView.setAdapter(expandableListAdapter)
-
-
-
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_course_registed, menu)
@@ -39,7 +35,7 @@ class CourseRegistedActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item!!.itemId == R.id.addCourseBtn){
+        if(item!!.itemId == R.id.addCourse) {
             val intentToCourseList = Intent(this,CourseListActivity::class.java)
             startActivity(intentToCourseList)
             return true
