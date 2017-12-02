@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "575870467613",
+    "firebase_url": "https://grade-simulator.firebaseio.com",
+    "project_id": "grade-simulator",
+    "storage_bucket": "grade-simulator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575870467613:android:10b3656956322066",
+        "android_client_info": {
+          "package_name": "com.egco428.gradesimulator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575870467613-i923kb0sjl8d2tefpmlp22vt0l7697f4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.egco428.gradesimulator",
+            "certificate_hash": "a8b16bedd1be2034fa5822f7633ba845bf328027"
+          }
+        },
+        {
+          "client_id": "575870467613-cpeihi4ljvv5s1p2n9a21dcode2v8ksu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.egco428.gradesimulator",
+            "certificate_hash": "d7a8236ece0fee9c4d7f284277e56dd444d93419"
+          }
+        },
+        {
+          "client_id": "575870467613-7hidl50t2l3o0dcbiufpphpkcouu2irb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkWqWX199fkf1NF9eeZxCJj8V-MxkDK0M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575870467613-7hidl50t2l3o0dcbiufpphpkcouu2irb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
