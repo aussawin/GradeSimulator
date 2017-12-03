@@ -8,10 +8,10 @@ import java.util.ArrayList
 class ExpandableListDataPump {
     fun getData(): HashMap<String, List<Course>>{
         val expandableListDetail: HashMap<String, List<Course>> = HashMap()
-        val y1s1: List<Course> = (1..5).map { Course("S1_NO$it", "S1_SUBJ$it", "CAT${it%3}") }
-        val y1s2: List<Course> = (1..5).map { Course("S2_NO$it", "S2_SUBJ$it", "CAT${it%3}") }
-        expandableListDetail.put("Year1Semester1", y1s1)
-        expandableListDetail.put("Year1Semester2", y1s2)
+//        val y1s1: List<Course> = (1..5).map { Course("S1_NO$it", "S1_SUBJ$it", "CAT${it%3}") }
+//        val y1s2: List<Course> = (1..5).map { Course("S2_NO$it", "S2_SUBJ$it", "CAT${it%3}") }
+//        expandableListDetail.put("Year1Semester1", y1s1)
+//        expandableListDetail.put("Year1Semester2", y1s2)
         return expandableListDetail
     }
 }

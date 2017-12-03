@@ -1,13 +1,12 @@
 package com.egco428.gradesimulator
 
-/**
- * Created by Aussawin on 11/2/2017 AD.
- */
-
-data class Course(val courseNo: String = "",
-                  val name: String = "",
-                  val cat: String = "",
-                  val category: Int = 0,
-                  val credit: Int = 0,
-                  val requisite: MutableList<Int> = mutableListOf(),
-                  val prerequisite: MutableList<String> = mutableListOf())
+data class Course(var courseNo: String = "",
+                  val name: String,
+                  val category: Int,
+                  val credit: Int,
+                  var categoryName: String,
+                  val requisite: Requisite?,
+                  var prerequisite: String?
+        ) {
+        constructor(): this("","",0,0,"", null,null)
+}
