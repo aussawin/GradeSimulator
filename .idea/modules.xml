@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GradeSimulator.iml" filepath="$PROJECT_DIR$/GradeSimulator.iml" />
-      <module fileurl="file://C:\Users\Onewdivide\Documents\GitHub\GradeSimulator\GradeSimulator.iml" filepath="C:\Users\Onewdivide\Documents\GitHub\GradeSimulator\GradeSimulator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Onewdivide\Documents\GitHub\GradeSimulator\app\app.iml" filepath="C:\Users\Onewdivide\Documents\GitHub\GradeSimulator\app\app.iml" />
       <module fileurl="file://D:\Documents\GradeSimulator\app\app.iml" filepath="D:\Documents\GradeSimulator\app\app.iml" />
       <module fileurl="file://D:\Documents\GradeSimulator\gradesimulator.iml" filepath="D:\Documents\GradeSimulator\gradesimulator.iml" />
     </modules>

@@ -3,6 +3,7 @@ package com.egco428.gradesimulator
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListView
@@ -24,10 +25,15 @@ class CourseRegistedActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val myExpandableListView = expandableListView
         expandableListDetail = ExpandableListDataPump().getData()
-        expandableListTitle = expandableListDetail!!.keys.toList()
+        expandableListTitle = expandableListDetail!!.keys.sorted().toList()
+        for (i in 0..(expandableListTitle!!.size-1))
+            Log.e("Test Name", expandableListTitle!![i])
         expandableListAdapter = CustomExpandableListAdapter(this, expandableListTitle!!, expandableListDetail!!)
 //        expandableListView.setAdapter(expandableListAdapter)
         myExpandableListView.setAdapter(expandableListAdapter)
+
+
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_course_registed, menu)
