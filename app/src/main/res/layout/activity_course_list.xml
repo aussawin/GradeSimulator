@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.egco428.gradesimulator.CourseListActivity">
+    tools:context="com.egco428.gradesimulator.CourseListActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ListView
         android:id="@+id/courseListView"
@@ -42,7 +44,9 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/filterBtn"
         app:layout_constraintStart_toEndOf="@+id/searchIcon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:nextFocusUp="@id/searchTextBox"
+        android:nextFocusLeft="@id/searchTextBox"/>
 
     <ImageButton
         android:id="@+id/filterBtn"

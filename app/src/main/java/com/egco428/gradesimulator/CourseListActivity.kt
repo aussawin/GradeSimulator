@@ -15,16 +15,20 @@ import kotlinx.android.synthetic.main.activity_course_list.*
 import kotlinx.android.synthetic.main.course_row.view.*
 import com.google.firebase.database.DataSnapshot
 import android.app.AlertDialog
+import android.content.Intent
 
 class CourseListActivity : AppCompatActivity() {
     private val courseArray: ArrayList<Course> = arrayListOf()
+    private val courseShowArray: ArrayList<Course> = arrayListOf()
     private val categoryArray = HashMap<Int,String>()
-    private var checkList: ArrayList<Boolean> = arrayListOf()
+    private val checkList: ArrayList<CheckPosition> = arrayListOf()
     private lateinit var dataReference: DatabaseReference
     private lateinit var categoryReference: DatabaseReference
     private val categorySet: ArrayList<String> = arrayListOf()
+    private lateinit var itemsCheckList: BooleanArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val itemCheck= arrayListOf<Boolean>()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_list)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -39,7 +43,11 @@ class CourseListActivity : AppCompatActivity() {
                 for(i in dataSnapshot!!.children){
                     categoryArray.put(Integer.parseInt(i.key),i.value.toString())
                     categorySet.add(i.value.toString())
+                    itemCheck.add(true)
                 }
+
+                itemsCheckList = itemCheck.toBooleanArray()
+                setCourseShow()
             }
         })
 
@@ -53,25 +61,27 @@ class CourseListActivity : AppCompatActivity() {
                     message.courseNo = i.key
                     message.categoryName = categoryArray.getValue(message.category)
                     courseArray.add(message)
-                    checkList.add(false)
+                    checkList.add(CheckPosition(courseArray.indexOf(message), false))
                 }
+
+                setCourseShow()
             }
         })
 
         filterBtn.setOnClickListener {
-            Log.d("Category",categorySet.toString())
             val dialog = FilterDialog()
             val ft = fragmentManager.beginTransaction()
             val prev = fragmentManager.findFragmentByTag("dialog")
             val args = Bundle()
 
             args.putStringArray("category", categorySet.toTypedArray())
+            args.putBooleanArray("itemsChecked",itemsCheckList)
             if (prev != null) {
                 ft.remove(prev)
             }
             ft.addToBackStack(null)
             dialog.arguments = args
-            // Create and show the dialog.
+            dialog.setContext(this)
             dialog.show(ft, "dialog")
         }
 
@@ -79,23 +89,54 @@ class CourseListActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
 
             override fun afterTextChanged(p0: Editable?) {
-                val searchText = searchTextBox.text.toString().toLowerCase()
-                val tempArray = ArrayList<Course>()
-
-                courseArray.filterTo(tempArray) { it.courseNo.toLowerCase().contains(searchText) || it.name.toLowerCase().contains(searchText) }
-
-                setListView(tempArray)
+                setCourseShow()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
         })
 
         courseListView.adapter = CourseArrayAdapter(this, 0, courseArray, checkList)
+    }
+    private fun setCourseShow(){
+        val searchText = searchTextBox.text.toString().toLowerCase()
+        val tempCheckArray = arrayListOf<CheckPosition>()
+        courseShowArray.clear()
 
+        //Filter Method
+        for (checkStateItem in 0 until this.itemsCheckList.size){
+            if (this.itemsCheckList[checkStateItem]) {
+                Log.d("System", checkStateItem.toString() )
+                courseArray.filterTo(courseShowArray) { it.category == checkStateItem + 1 }
+//                courseShowArray.addAll(courseArray.filter { it.category == itemsCheckList.indexOf(checkStateItem) + 1 })
+//                tempCheckArray.add(checkList[itemsCheckList.indexOf(checkStateItem)])
+            }
+        }
+
+        val tempCourseShow = arrayListOf<Course>()
+        tempCourseShow.addAll(courseShowArray)
+        courseShowArray.clear()
+        Log.d("search",searchText)
+        //Search Method
+        for (i in tempCourseShow){
+            Log.d("search",i.courseNo.toLowerCase())
+            if (i.courseNo.toLowerCase().contains(searchText.toLowerCase()) || i.name.toLowerCase().contains(searchText.toLowerCase())){
+
+                val index = courseArray.indexOf(i)
+                tempCheckArray.add(checkList[index])
+                courseShowArray.add(i)
+            }
+        }
+
+        setListView(courseShowArray, tempCheckArray)
+    }
+    fun setCategoryFilter(itemsCheckList: BooleanArray){
+
+        this.itemsCheckList = itemsCheckList
+        setCourseShow()
     }
 
-    private fun setListView(list: ArrayList<Course>){
-        courseListView.adapter = CourseArrayAdapter(this, 0, list, checkList)
+    private fun setListView(list: ArrayList<Course>, boolList: ArrayList<CheckPosition>){
+        courseListView.adapter = CourseArrayAdapter(this, 0, list, boolList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -105,9 +146,19 @@ class CourseListActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
         return when {
             item!!.itemId == R.id.saveBtn -> {
+                val selectedCourse: ArrayList<Course> = arrayListOf()
+                checkList
+                        .filter { it.isCheck }
+                        .mapTo(selectedCourse) { courseArray[it.position] }
+
+                val intent = Intent(this, CourseRegistedActivity::class.java)
+
+                intent.putExtra("courseObject", selectedCourse)
+
+                startActivity(intent)
+
                 finish()
                 true
             }
@@ -117,31 +168,33 @@ class CourseListActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
-    class FilterDialog: DialogFragment(){
+    class FilterDialog: DialogFragment() {
         private lateinit var categorySet: Array<String>
-
+        private lateinit var itemsChecked: BooleanArray
+        private lateinit var courseListActivity: CourseListActivity
+        fun setContext(cousrlistActivity: CourseListActivity){
+            courseListActivity = cousrlistActivity
+        }
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            Log.d("Check","Created")
             val builder = AlertDialog.Builder(activity)
             categorySet = arguments.getStringArray("category")
-            builder.setTitle("Fire ?")
-                    .setMultiChoiceItems(categorySet,null) { dialog, which, isChecked -> }
+            itemsChecked = arguments.getBooleanArray("itemsChecked")
+            builder.setTitle("Choose filter")
+                    .setMultiChoiceItems(categorySet, itemsChecked) { dialog, which, isChecked ->
+                        itemsChecked[which] = isChecked
+                        Log.d("Check",isChecked.toString())
+                    }
                     .setPositiveButton("OK", { dialog, id ->
-                        // FIRE ZE MISSILES!
+                        courseListActivity.setCategoryFilter(itemsChecked)
                     })
-                    .setNegativeButton("Cancel", { dialog, id ->
-                        // User cancelled the dialog
-                    })
-
-            // Create the AlertDialog object and return it
             return builder.create()
         }
-
     }
 
-    private class CourseArrayAdapter(var context: Context, resource: Int, var objects: ArrayList<Course>, var checkList: ArrayList<Boolean>): BaseAdapter() {
+    private class CourseArrayAdapter(var context: Context, resource: Int, var objects: ArrayList<Course>, var checkList: ArrayList<CheckPosition>): BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view: View
             val course = objects[position]
@@ -159,7 +212,7 @@ class CourseListActivity : AppCompatActivity() {
             val viewHolder = view.tag as ViewHolder
 
             viewHolder.checkBox.setOnCheckedChangeListener({ _, b ->
-                checkList[position] = b
+                checkList[position].isCheck = b
                 Log.d("checked", "position : $position, is $b, size : ${checkList.size}")
             })
 
@@ -167,7 +220,12 @@ class CourseListActivity : AppCompatActivity() {
             viewHolder.codeTextView.text = course.courseNo
             viewHolder.creditText.text = "หน่วยกิต : " + course.credit.toString()
             viewHolder.categoryText.text = course.categoryName
-            viewHolder.checkBox.isChecked = checkList[position]
+            viewHolder.checkBox.isChecked = checkList[position].isCheck
+
+            view.setOnClickListener {
+                viewHolder.checkBox.isChecked = !viewHolder.checkBox.isChecked
+                checkList[position].isCheck = viewHolder.checkBox.isChecked
+            }
 
             return view
         }
@@ -190,4 +248,8 @@ class CourseListActivity : AppCompatActivity() {
                                  val categoryText: TextView,
                                  val checkBox: CheckBox)
     }
+
+    private class CheckPosition(val position: Int,
+                                var isCheck: Boolean)
+
 }
