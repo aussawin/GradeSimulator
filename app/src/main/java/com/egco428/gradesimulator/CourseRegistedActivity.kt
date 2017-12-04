@@ -5,28 +5,25 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ExpandableListView
 import android.widget.ExpandableListAdapter
-import android.widget.ListAdapter
 import kotlinx.android.synthetic.main.activity_course_registed.*
 
 class CourseRegistedActivity : AppCompatActivity() {
-
-//    var expandableListView: ExpandableListView = null
     private var expandableListAdapter: ExpandableListAdapter? = null
     private var expandableListTitle: List<String>? = null
     private var expandableListDetail: HashMap<String, List<Course>>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_registed)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         val myExpandableListView = expandableListView
+
         expandableListDetail = ExpandableListDataPump().getData()
-        expandableListTitle = expandableListDetail!!.keys.toList()
+        expandableListTitle = expandableListDetail!!.keys.sorted().toList()
         expandableListAdapter = CustomExpandableListAdapter(this, expandableListTitle!!, expandableListDetail!!)
-//        expandableListView.setAdapter(expandableListAdapter)
+
         myExpandableListView.setAdapter(expandableListAdapter)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

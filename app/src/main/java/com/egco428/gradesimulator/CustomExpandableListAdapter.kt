@@ -2,15 +2,16 @@ package com.egco428.gradesimulator
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.graphics.Typeface
+import android.os.Bundle
+import android.support.v4.content.ContextCompat.startActivity
 import android.widget.*
+import java.util.*
 
-/**
- * Created by Aussawin on 11/1/2017 AD.
- */
 class CustomExpandableListAdapter(private val context: Context,
                                   private val expandableListTitle: List<String>,
                                   private val expandableListDetail: HashMap<String, List<Course>> = HashMap())
@@ -26,7 +27,7 @@ class CustomExpandableListAdapter(private val context: Context,
 
     @SuppressLint("InflateParams")
     override fun getChildView(listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, ViewGroup: ViewGroup?): View {
-//        val subjCode: String = getChild(listPosition, expandedListPosition).courseNo
+        val subjCode: String = getChild(listPosition, expandedListPosition).courseNo
         val subjName: String = getChild(listPosition, expandedListPosition).name
         var tempConvertView = convertView
 
@@ -52,7 +53,7 @@ class CustomExpandableListAdapter(private val context: Context,
         val subjCodeView = tempConvertView!!.findViewById<View>(R.id.subjectCode) as TextView
         val subjNameView = tempConvertView.findViewById<View>(R.id.subjectName) as TextView
         subjNameView.text = subjName
-//        subjCodeView.text = subjCode
+        subjCodeView.text = subjCode
         return tempConvertView
 
     }
@@ -77,11 +78,29 @@ class CustomExpandableListAdapter(private val context: Context,
     override fun getGroupView(listPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
         var tempConvertView = convertView
         val listTitle: String = getGroup(listPosition) as String
+
         if (tempConvertView == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             tempConvertView = layoutInflater.inflate(R.layout.list_group, null)
         }
+
         val listTitleTextView = tempConvertView!!.findViewById<View>(R.id.listTitle) as TextView
+        val addSubjectBtn = tempConvertView.findViewById<View>(R.id.addSubject) as ImageButton
+        addSubjectBtn.isFocusable = false
+
+        addSubjectBtn.setOnClickListener {
+            val intent = Intent(this.context, CourseListActivity::class.java)
+            val courseForIntent = expandableListDetail[expandableListTitle[listPosition]]!!.toTypedArray()
+            val courseList: ArrayList<String> = arrayListOf()
+
+            courseForIntent.mapTo(courseList) { it.courseNo }
+
+            intent.putExtra("SemesterEducation", expandableListTitle[listPosition])
+            intent.putExtra("course", courseList)
+
+            startActivity(this.context,intent, Bundle.EMPTY)
+        }
+
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
         return tempConvertView
@@ -94,5 +113,4 @@ class CustomExpandableListAdapter(private val context: Context,
     override fun isChildSelectable(p0: Int, p1: Int): Boolean {
         return true
     }
-
 }
