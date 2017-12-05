@@ -119,6 +119,7 @@ class CustomExpandableListAdapter(private val context: Context,
 
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
+
         return tempConvertView
     }
 

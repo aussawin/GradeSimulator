@@ -17,14 +17,18 @@ class CourseRegistedActivity : AppCompatActivity() {
     private var expandableListTitle: List<String>? = null
     private var expandableListDetail: HashMap<String, List<Course>>? = hashMapOf()
     private val REQUEST_CODE = 1111
-    private lateinit var obj: ArrayList<Course>
     private var position: Int = 0
     private var gradeMap: HashMap<Course, Double> = hashMapOf()
+    private var datasource: CourseDataSource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_registed)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+//        if(datasource != null) {
+//            val values = datasource!!.allSubjectInSemester
+//        }
 
         reloadData()
     }
@@ -59,12 +63,31 @@ class CourseRegistedActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data!!.getBundleExtra("courseObject") != null){
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data!!.getBundleExtra("courseObject") != null) {
+            val obj: ArrayList<Course>
             val temp = data.getBundleExtra("courseObject")
             obj = temp.getSerializable("tempKey") as ArrayList<Course>
             position = data.extras.getInt("returnPosition")
 
+            datasource = CourseDataSource(this, position)
+            datasource!!.open()
+
+            for (i in obj){
+                datasource!!.createSubject(
+                        i.courseNo,
+                        i.name,
+                        i.category,
+                        i.credit,
+                        i.categoryName,
+                        position,
+                        gradeMap.values.toString())
+            }
+
+            val values = datasource!!.allSubjectInSemester
+
             expandableListDetail!!["Year ${position / 3 + 1}: Semester ${position % 3 + 1}"] = obj
+            reloadData()
+            expandableListView.expandGroup(position)
         }
     }
 

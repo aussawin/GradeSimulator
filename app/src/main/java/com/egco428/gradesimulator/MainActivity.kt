@@ -2,6 +2,7 @@ package com.egco428.gradesimulator
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,12 @@ class MainActivity : AppCompatActivity() {
     private var specializeCredits: Int = 0
     private var electiveCredits: Int = 0
     private var internCredits: Int = 0
+
+    private var socialCredits_min: Int = 12
+    private var languageCredits_min: Int = 12
+    private var specializeCredits_min: Int = 57
+    private var electiveCredits_min: Int = 12
+    private var internCredits_min: Int = 1
 
     private var canGetHonor = true
     private var isCooperative = false
@@ -59,16 +66,13 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data!!.extras.get("gradeMap") != null){
             val tempMap = data.extras.get("gradeMap") as HashMap<Course, Double>
-
             gradeMap = tempMap
-
             for (i in gradeMap) {
                 Log.d("gradeMap", i.key.courseNo + ": " + i.value)
             }
             setDetail()
             setAllData()
         }
-
     }
 
     private fun setDetail(){
@@ -96,30 +100,88 @@ class MainActivity : AppCompatActivity() {
         }
         totalGpa = DecimalFormat("#.00").format(sumGpa/totalCredits).toDouble()
         honor = if      (totalGpa in honor1st && canGetHonor) { 1 }
-                else if (totalGpa in honor2nd && canGetHonor) { 2 }
-                else { -1 }
+        else if (totalGpa in honor2nd && canGetHonor) { 2 }
+        else { -1 }
 
         highPro = totalGpa in highProRange
         lowPro  = totalGpa in lowProRange
     }
 
     private fun setAllData(){
+        var color: Int = 0
+        if (isCooperative){
+            setIfIsCooperative()
+        }
+        else {
+            setIfIsNotCooperative()
+        }
         valueGPA.text = totalGpa.toString()
         valueCredits.text = totalCredits.toString()
         valueLow.text = if(lowPro) { "ใช่" } else { "ไม่" }
+        color = if(lowPro) { Color.RED } else { Color.BLUE }
+        valueLow.setTextColor(color)
+
         valueHigh.text = if(highPro) { "ใช่" } else { "ไม่" }
+        color = if(highPro) { Color.RED } else { Color.BLUE }
+        valueHigh.setTextColor(color)
+
         valueHonor.text = when (honor) {
             1 -> "อันดับ 1"
             2 -> "อันดับ 2"
             else -> "ไม่"
         }
+        color = when(honor){
+            -1 -> Color.RED
+            else -> Color.BLUE
+        }
+        valueHonor.setTextColor(color)
+
         valueCatagory1_1.text = socialCredits.toString()
+        color = if(socialCredits < socialCredits_min) { Color.RED } else { Color.BLUE }
+        valueCatagory1_1.setTextColor(color)
+
         valueCatagory1_2.text = languageCredits.toString()
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        valueCatagory1_2.setTextColor(color)
+
         valueCatagory1_3.text = scienceMathCredits.toString()
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        valueCatagory1_3.setTextColor(color)
+
         valueCatagory2_1.text = coreCredits.toString()
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        valueCatagory2_1.setTextColor(color)
+
         valueCatagory2_2.text = specializeCredits.toString()
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        valueCatagory2_2.setTextColor(color)
+
         valueCatagory2_3.text = electiveCredits.toString()
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        valueCatagory2_3.setTextColor(color)
+
         valueCategory3.text   = internCredits.toString()
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        valueCategory3.setTextColor(color)
+
         valueCategory4.text   = "_"
+    }
+
+    private fun setIfIsCooperative(){
+        specializeCredits_min = 56
+        mainText5.text = "/$specializeCredits_min"
+        electiveCredits_min = 6
+        mainText3.text = "/$electiveCredits_min"
+        internCredits_min = 0
+        mainText7.text = "/$internCredits_min"
+    }
+
+    private fun setIfIsNotCooperative(){
+        specializeCredits_min = 57
+        mainText5.text = "/$specializeCredits_min"
+        electiveCredits_min = 12
+        mainText3.text = "/$electiveCredits_min"
+        internCredits_min = 1
+        mainText7.text = "/$internCredits_min"
     }
 }

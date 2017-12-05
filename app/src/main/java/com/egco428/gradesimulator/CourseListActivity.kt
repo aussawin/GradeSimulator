@@ -79,6 +79,10 @@ class CourseListActivity : AppCompatActivity() {
                     message.categoryName = categoryArray.getValue(message.category)
                     courseArray.add(message)
 
+                    if (message.requisite?.year == position!! / 3 + 1 && message.requisite.semester == position!! % 3 + 1) {
+                        checkBoolean = true
+                    }
+
                     obj
                             .filter { it.courseNo == message.courseNo }
                             .forEach { checkBoolean = true }
