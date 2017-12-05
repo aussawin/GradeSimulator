@@ -8,14 +8,19 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.content.ContextCompat.startActivity
 import android.widget.*
 import java.util.*
+import java.io.Serializable
+
 
 class CustomExpandableListAdapter(private val context: Context,
-                                  private val expandableListTitle: List<String>,
-                                  private val expandableListDetail: HashMap<String, List<Course>> = HashMap())
+                                    private val expandableListTitle: List<String>,
+                                    private val expandableListDetail: HashMap<String, List<Course>> = HashMap(),
+                                    private val courseRegisted: CourseRegistedActivity)
     : BaseExpandableListAdapter() {
+
+
+    var addSubjectBtn: ImageButton? = null
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Course {
         return expandableListDetail[expandableListTitle[listPosition]]!![expandedListPosition]
@@ -85,20 +90,12 @@ class CustomExpandableListAdapter(private val context: Context,
         }
 
         val listTitleTextView = tempConvertView!!.findViewById<View>(R.id.listTitle) as TextView
-        val addSubjectBtn = tempConvertView.findViewById<View>(R.id.addSubject) as ImageButton
-        addSubjectBtn.isFocusable = false
+        addSubjectBtn = tempConvertView.findViewById<View>(R.id.addSubject) as ImageButton
+        addSubjectBtn!!.isFocusable = false
 
-        addSubjectBtn.setOnClickListener {
-            val intent = Intent(this.context, CourseListActivity::class.java)
+        addSubjectBtn!!.setOnClickListener {
             val courseForIntent = expandableListDetail[expandableListTitle[listPosition]]!!.toTypedArray()
-            val courseList: ArrayList<String> = arrayListOf()
-
-            courseForIntent.mapTo(courseList) { it.courseNo }
-
-            intent.putExtra("SemesterEducation", expandableListTitle[listPosition])
-            intent.putExtra("course", courseList)
-
-            startActivity(this.context,intent, Bundle.EMPTY)
+            courseRegisted.dataTransferMethod(courseForIntent)
         }
 
         listTitleTextView.setTypeface(null, Typeface.BOLD)

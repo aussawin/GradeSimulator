@@ -29,7 +29,7 @@ class ExpandableListDataPump {
         for (i in years){
             for (j in semesters){
                 for(z in 1..3){
-                    subjectNameTest = "Engineering in Year $i in Semester $j subject $z"
+                    subjectNameTest = "EG$i$j$z"
                     yearsList[i-1].semesterList[j-1].courseList.add(Course(subjectNameTest,
                             "test",
                             0,

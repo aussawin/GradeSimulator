@@ -1,5 +1,6 @@
 package com.egco428.gradesimulator
 
+import android.app.Activity
 import android.app.Dialog
 import android.app.DialogFragment
 import android.content.Context
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.course_row.view.*
 import com.google.firebase.database.DataSnapshot
 import android.app.AlertDialog
 import android.content.Intent
+import java.io.Serializable
 
 class CourseListActivity : AppCompatActivity() {
     private val courseArray: ArrayList<Course> = arrayListOf()
@@ -97,20 +99,18 @@ class CourseListActivity : AppCompatActivity() {
 
         courseListView.adapter = CourseArrayAdapter(this, 0, courseArray, checkList)
     }
+
     private fun setCourseShow(){
         val searchText = searchTextBox.text.toString().toLowerCase()
         val tempCheckArray = arrayListOf<CheckPosition>()
         courseShowArray.clear()
 
         //Filter Method
-        for (checkStateItem in 0 until this.itemsCheckList.size){
-            if (this.itemsCheckList[checkStateItem]) {
-                Log.d("System", checkStateItem.toString() )
-                courseArray.filterTo(courseShowArray) { it.category == checkStateItem + 1 }
-//                courseShowArray.addAll(courseArray.filter { it.category == itemsCheckList.indexOf(checkStateItem) + 1 })
-//                tempCheckArray.add(checkList[itemsCheckList.indexOf(checkStateItem)])
-            }
-        }
+        (0 until this.itemsCheckList.size)
+                .filter { this.itemsCheckList[it] }
+                .forEach { checkStateItem -> //                Log.d("System", checkStateItem.toString() )
+                    courseArray.filterTo(courseShowArray) { it.category == checkStateItem + 1 }
+                }
 
         val tempCourseShow = arrayListOf<Course>()
         tempCourseShow.addAll(courseShowArray)
@@ -118,7 +118,7 @@ class CourseListActivity : AppCompatActivity() {
         Log.d("search",searchText)
         //Search Method
         for (i in tempCourseShow){
-            Log.d("search",i.courseNo.toLowerCase())
+//            Log.d("search",i.courseNo.toLowerCase())
             if (i.courseNo.toLowerCase().contains(searchText.toLowerCase()) || i.name.toLowerCase().contains(searchText.toLowerCase())){
 
                 val index = courseArray.indexOf(i)
@@ -149,15 +149,22 @@ class CourseListActivity : AppCompatActivity() {
         return when {
             item!!.itemId == R.id.saveBtn -> {
                 val selectedCourse: ArrayList<Course> = arrayListOf()
+
                 checkList
                         .filter { it.isCheck }
                         .mapTo(selectedCourse) { courseArray[it.position] }
 
                 val intent = Intent(this, CourseRegistedActivity::class.java)
 
-                intent.putExtra("courseObject", selectedCourse)
+                val args = Bundle()
 
-                startActivity(intent)
+                args.putSerializable("tempKey", selectedCourse as Serializable)
+
+                intent.putExtra("courseObject", args)
+
+                Log.d("SEND STATUS", Activity.RESULT_OK.toString())
+
+                setResult(Activity.RESULT_OK,intent)
 
                 finish()
                 true
@@ -174,8 +181,8 @@ class CourseListActivity : AppCompatActivity() {
         private lateinit var categorySet: Array<String>
         private lateinit var itemsChecked: BooleanArray
         private lateinit var courseListActivity: CourseListActivity
-        fun setContext(cousrlistActivity: CourseListActivity){
-            courseListActivity = cousrlistActivity
+        fun setContext(tempListActivity: CourseListActivity){
+            courseListActivity = tempListActivity
         }
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             Log.d("Check","Created")
@@ -251,5 +258,4 @@ class CourseListActivity : AppCompatActivity() {
 
     private class CheckPosition(val position: Int,
                                 var isCheck: Boolean)
-
 }
