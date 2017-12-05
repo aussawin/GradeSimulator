@@ -87,6 +87,14 @@ class CourseDataSource(context: Context, groupIdInputt: Int) {
         database!!.delete(MySQLiteHelper.TABLE_SUBJECT, MySQLiteHelper.COLUMN_ID+"="+id,null)
     }
 
+    fun deleteAllSubjectInPosition(){
+        database!!.delete(MySQLiteHelper.TABLE_SUBJECT,MySQLiteHelper.COLUMN_groupId+"="+groupIdInput,null)
+    }
+
+    fun deleteAll(){
+        database!!.delete(MySQLiteHelper.TABLE_SUBJECT,null,null)
+    }
+
     private fun cursorToSubject(cursor: Cursor): CourseLocalDatabase{
         val courseLocalDatabase = CourseLocalDatabase()
         courseLocalDatabase.id = cursor.getLong(0)
