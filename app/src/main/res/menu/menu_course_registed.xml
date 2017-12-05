@@ -3,9 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/addCourse"
-        android:title="เพิ่มรายวิชา" />
-    <item
         android:id="@+id/addTerm"
         android:title="เพิ่มจำนวนเทอม" />
     <item

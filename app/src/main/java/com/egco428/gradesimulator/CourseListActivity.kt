@@ -28,13 +28,27 @@ class CourseListActivity : AppCompatActivity() {
     private lateinit var categoryReference: DatabaseReference
     private val categorySet: ArrayList<String> = arrayListOf()
     private lateinit var itemsCheckList: BooleanArray
+    private lateinit var obj: ArrayList<Course>
+    private var position: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val itemCheck= arrayListOf<Boolean>()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_list)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        //Receive data from CourseRegistedActivity
+        if (intent.extras.getLong("position") != null) {
+            if (intent.getBundleExtra("arrayList") != null) {
+                val temp = intent.getBundleExtra("arrayList")
+                obj = temp.getSerializable("arrayList_2") as ArrayList<Course>
+            }
+
+            position = intent.extras.getInt("position")
+        }
+
+        //Get data from Firebase
         categoryReference = FirebaseDatabase.getInstance().getReference("courseCategory")
         dataReference = FirebaseDatabase.getInstance().getReference("courseData")
 
@@ -59,17 +73,24 @@ class CourseListActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
                 for (i in dataSnapshot!!.children) {
                     val message = i.getValue(Course::class.java) as Course
+                    var checkBoolean = false
 
                     message.courseNo = i.key
                     message.categoryName = categoryArray.getValue(message.category)
                     courseArray.add(message)
-                    checkList.add(CheckPosition(courseArray.indexOf(message), false))
+
+                    obj
+                            .filter { it.courseNo == message.courseNo }
+                            .forEach { checkBoolean = true }
+
+                    checkList.add(CheckPosition(courseArray.indexOf(message), checkBoolean))
                 }
 
                 setCourseShow()
             }
         })
 
+        //Filter
         filterBtn.setOnClickListener {
             val dialog = FilterDialog()
             val ft = fragmentManager.beginTransaction()
@@ -87,6 +108,7 @@ class CourseListActivity : AppCompatActivity() {
             dialog.show(ft, "dialog")
         }
 
+        //Search
         searchTextBox.addTextChangedListener(object: TextWatcher{
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
 
@@ -108,7 +130,7 @@ class CourseListActivity : AppCompatActivity() {
         //Filter Method
         (0 until this.itemsCheckList.size)
                 .filter { this.itemsCheckList[it] }
-                .forEach { checkStateItem -> //                Log.d("System", checkStateItem.toString() )
+                .forEach { checkStateItem ->
                     courseArray.filterTo(courseShowArray) { it.category == checkStateItem + 1 }
                 }
 
@@ -118,7 +140,6 @@ class CourseListActivity : AppCompatActivity() {
         Log.d("search",searchText)
         //Search Method
         for (i in tempCourseShow){
-//            Log.d("search",i.courseNo.toLowerCase())
             if (i.courseNo.toLowerCase().contains(searchText.toLowerCase()) || i.name.toLowerCase().contains(searchText.toLowerCase())){
 
                 val index = courseArray.indexOf(i)
@@ -161,10 +182,9 @@ class CourseListActivity : AppCompatActivity() {
                 args.putSerializable("tempKey", selectedCourse as Serializable)
 
                 intent.putExtra("courseObject", args)
+                intent.putExtra("returnPosition", position)
 
-                Log.d("SEND STATUS", Activity.RESULT_OK.toString())
-
-                setResult(Activity.RESULT_OK,intent)
+                setResult(Activity.RESULT_OK, intent)
 
                 finish()
                 true

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListAdapter
@@ -15,27 +14,39 @@ class CourseRegistedActivity : AppCompatActivity() {
     private var expandableListAdapter: ExpandableListAdapter? = null
     private var customExpandableListAdapter: CustomExpandableListAdapter? = null
     private var expandableListTitle: List<String>? = null
-    private var expandableListDetail: HashMap<String, List<Course>>? = null
+    private var expandableListDetail: HashMap<String, List<Course>>? = hashMapOf()
     private val REQUEST_CODE = 1111
+    private lateinit var obj: ArrayList<Course>
+    private var position: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_registed)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val myExpandableListView = expandableListView
+        reloadData()
+    }
 
-        expandableListDetail = ExpandableListDataPump().getData()
+    private fun reloadData() {
         expandableListTitle = expandableListDetail!!.keys.sorted().toList()
         customExpandableListAdapter = CustomExpandableListAdapter(this, expandableListTitle!!, expandableListDetail!!,this)
         expandableListAdapter = customExpandableListAdapter
 
-        myExpandableListView.setAdapter(expandableListAdapter)
+        expandableListView.setAdapter(expandableListAdapter)
     }
-    fun dataTransferMethod(data: Array<Course>){
+
+    fun dataTransferMethod(position: Int, data: ArrayList<Course>){
         val intentToCourseList = Intent(this,CourseListActivity::class.java)
-        val args = Bundle()
-        args.putSerializable("arrayList", data as Serializable)
-        intentToCourseList.putExtra("arrayList_2", args)
+
+        if (data != null) {
+            val args = Bundle()
+
+            args.putSerializable("arrayList_2", data as Serializable)
+
+            intentToCourseList.putExtra("arrayList", args)
+        }
+
+        intentToCourseList.putExtra("position", position)
 
         startActivityForResult(intentToCourseList, REQUEST_CODE)
     }
@@ -44,10 +55,10 @@ class CourseRegistedActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data!!.getBundleExtra("courseObject") != null){
             val temp = data.getBundleExtra("courseObject")
-            val obj = temp.getSerializable("tempKey") as ArrayList<Course>
-            for (i in obj) {
-                Log.d("object", i.courseNo)
-            }
+            obj = temp.getSerializable("tempKey") as ArrayList<Course>
+            position = data.extras.getInt("returnPosition")
+
+            expandableListDetail!!["Year ${position / 3 + 1}: Semester ${position % 3 + 1}"] = obj
         }
     }
 
@@ -57,15 +68,36 @@ class CourseRegistedActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item!!.itemId == R.id.addCourse) {
-            val intentToCourseList = Intent(this,CourseListActivity::class.java)
-            Log.d("Activity", "start! >> CourseList Activity")
-            startActivityForResult(intentToCourseList, REQUEST_CODE)
-            return true
-        }
-        else if(item.itemId == android.R.id.home){
-            finish()
-            return true
+        if (item != null) {
+            var count = customExpandableListAdapter!!.groupCount
+            when {
+                item.itemId == android.R.id.home -> {
+                    finish()
+                    return true
+                }
+                item.itemId == R.id.addTerm -> {
+                    if (count <= 11) {
+                        val key = "Year ${count / 3 + 1}: Semester ${count % 3 + 1}"
+                        expandableListDetail!!.put(key, listOf())
+                    }
+                }
+                item.itemId == R.id.removeTerm -> {
+                    count--
+                    val key = "Year ${count / 3 + 1}: Semester ${count % 3 + 1}"
+                    expandableListDetail!!.remove(key)
+                }
+                item.itemId == R.id.removeAll -> {
+                    expandableListDetail = hashMapOf()
+                }
+                item.itemId == R.id.saveData -> {
+                    val intent = Intent(this, MainActivity::class.java)
+
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
+            reloadData()
         }
         return super.onOptionsItemSelected(item)
     }

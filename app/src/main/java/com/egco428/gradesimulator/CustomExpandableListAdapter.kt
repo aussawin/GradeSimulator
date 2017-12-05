@@ -2,23 +2,18 @@ package com.egco428.gradesimulator
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.graphics.Typeface
-import android.os.Bundle
 import android.widget.*
 import java.util.*
-import java.io.Serializable
-
 
 class CustomExpandableListAdapter(private val context: Context,
                                     private val expandableListTitle: List<String>,
                                     private val expandableListDetail: HashMap<String, List<Course>> = HashMap(),
                                     private val courseRegisted: CourseRegistedActivity)
     : BaseExpandableListAdapter() {
-
 
     var addSubjectBtn: ImageButton? = null
 
@@ -43,24 +38,23 @@ class CustomExpandableListAdapter(private val context: Context,
 
         }
 
-//        val graded = tempConvertView!!.findViewById<View>(R.id.gradeDropDown) as Spinner
-//        val gradeAll = arrayOf("A","B","C","D","E","F")
-//        graded.adapter = ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, gradeAll)
-//        graded.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//            }
-//
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//            }
-//        }
-        val subjCodeView = tempConvertView!!.findViewById<View>(R.id.subjectCode) as TextView
+        val graded = tempConvertView!!.findViewById<View>(R.id.gradeDropDown) as Spinner
+        val gradedText = tempConvertView.findViewById<View>(R.id.gradeText) as TextView
+
+        graded.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                gradedText.text = graded.selectedItem.toString()
+            }
+        }
+
+        val subjCodeView = tempConvertView.findViewById<View>(R.id.subjectCode) as TextView
         val subjNameView = tempConvertView.findViewById<View>(R.id.subjectName) as TextView
         subjNameView.text = subjName
         subjCodeView.text = subjCode
-        return tempConvertView
 
+        return tempConvertView
     }
 
     override fun getChildrenCount(listPosition: Int): Int {
@@ -94,8 +88,14 @@ class CustomExpandableListAdapter(private val context: Context,
         addSubjectBtn!!.isFocusable = false
 
         addSubjectBtn!!.setOnClickListener {
-            val courseForIntent = expandableListDetail[expandableListTitle[listPosition]]!!.toTypedArray()
-            courseRegisted.dataTransferMethod(courseForIntent)
+            val courseForIntent = if (expandableListDetail[expandableListTitle[listPosition]]!!.isEmpty()) {
+                arrayListOf()
+            } else {
+                expandableListDetail[expandableListTitle[listPosition]]!! as ArrayList<Course>
+            }
+            val positionForIntent = getGroupId(listPosition).toInt()
+
+            courseRegisted.dataTransferMethod(positionForIntent, courseForIntent)
         }
 
         listTitleTextView.setTypeface(null, Typeface.BOLD)
