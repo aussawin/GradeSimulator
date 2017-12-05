@@ -71,6 +71,7 @@ class CourseRegistedActivity : AppCompatActivity() {
 
             datasource = CourseDataSource(this, position)
             datasource!!.open()
+            datasource!!.deleteAllSubjectInPosition()
 
             for (i in obj){
                 datasource!!.createSubject(
@@ -84,6 +85,9 @@ class CourseRegistedActivity : AppCompatActivity() {
             }
 
             val values = datasource!!.allSubjectInSemester
+            for (i in values){
+                Log.e("test database", i.courseNo)
+            }
 
             expandableListDetail!!["Year ${position / 3 + 1}: Semester ${position % 3 + 1}"] = obj
             reloadData()
