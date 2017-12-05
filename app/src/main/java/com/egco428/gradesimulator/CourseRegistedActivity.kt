@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListAdapter
@@ -18,6 +19,7 @@ class CourseRegistedActivity : AppCompatActivity() {
     private val REQUEST_CODE = 1111
     private lateinit var obj: ArrayList<Course>
     private var position: Int = 0
+    private var gradeMap: HashMap<Course, Double> = hashMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,10 @@ class CourseRegistedActivity : AppCompatActivity() {
         intentToCourseList.putExtra("position", position)
 
         startActivityForResult(intentToCourseList, REQUEST_CODE)
+    }
+
+    fun getGradeMapMethod(data: HashMap<Course, Double>) {
+        gradeMap = data
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -92,7 +98,10 @@ class CourseRegistedActivity : AppCompatActivity() {
                 item.itemId == R.id.saveData -> {
                     val intent = Intent(this, MainActivity::class.java)
 
-                    startActivity(intent)
+                    intent.putExtra("gradeMap", gradeMap)
+
+                    setResult(Activity.RESULT_OK, intent)
+
                     finish()
                 }
             }
@@ -101,6 +110,4 @@ class CourseRegistedActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
 }
