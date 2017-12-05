@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     private var socialCredits_min: Int = 12
     private var languageCredits_min: Int = 12
+    private var scienceMathCredits_min: Int = 6
+    private var coreCredits_min: Int = 32
     private var specializeCredits_min: Int = 57
     private var electiveCredits_min: Int = 12
     private var internCredits_min: Int = 1
@@ -65,14 +67,31 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data!!.extras.get("gradeMap") != null){
-            val tempMap = data.extras.get("gradeMap") as HashMap<Course, Double>
-            gradeMap = tempMap
+            defaultValue()
+            gradeMap = data.extras.get("gradeMap") as HashMap<Course, Double>
+
             for (i in gradeMap) {
                 Log.d("gradeMap", i.key.courseNo + ": " + i.value)
             }
             setDetail()
             setAllData()
         }
+    }
+
+    private fun defaultValue(){
+        gradeMap = hashMapOf()
+        totalGpa = 0.0
+        totalCredits = 0
+        lowPro = false
+        highPro = false
+        honor = 0
+        socialCredits = 0
+        languageCredits = 0
+        scienceMathCredits = 0
+        coreCredits = 0
+        specializeCredits = 0
+        electiveCredits = 0
+        internCredits = 0
     }
 
     private fun setDetail(){
@@ -145,23 +164,23 @@ class MainActivity : AppCompatActivity() {
         valueCatagory1_2.setTextColor(color)
 
         valueCatagory1_3.text = scienceMathCredits.toString()
-        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(scienceMathCredits < scienceMathCredits_min) { Color.RED } else { Color.BLUE }
         valueCatagory1_3.setTextColor(color)
 
         valueCatagory2_1.text = coreCredits.toString()
-        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(coreCredits < coreCredits_min) { Color.RED } else { Color.BLUE }
         valueCatagory2_1.setTextColor(color)
 
         valueCatagory2_2.text = specializeCredits.toString()
-        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(specializeCredits < specializeCredits_min) { Color.RED } else { Color.BLUE }
         valueCatagory2_2.setTextColor(color)
 
         valueCatagory2_3.text = electiveCredits.toString()
-        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(electiveCredits < electiveCredits_min) { Color.RED } else { Color.BLUE }
         valueCatagory2_3.setTextColor(color)
 
         valueCategory3.text   = internCredits.toString()
-        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(internCredits < internCredits_min) { Color.RED } else { Color.BLUE }
         valueCategory3.setTextColor(color)
 
         valueCategory4.text   = "_"
@@ -171,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         specializeCredits_min = 56
         mainText5.text = "/$specializeCredits_min"
         electiveCredits_min = 6
-        mainText3.text = "/$electiveCredits_min"
+        mainText6.text = "/$electiveCredits_min"
         internCredits_min = 0
         mainText7.text = "/$internCredits_min"
     }
@@ -180,7 +199,7 @@ class MainActivity : AppCompatActivity() {
         specializeCredits_min = 57
         mainText5.text = "/$specializeCredits_min"
         electiveCredits_min = 12
-        mainText3.text = "/$electiveCredits_min"
+        mainText6.text = "/$electiveCredits_min"
         internCredits_min = 1
         mainText7.text = "/$internCredits_min"
     }
