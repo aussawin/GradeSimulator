@@ -15,7 +15,7 @@ class MySQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        Log.w(MySQLiteHelper::class.java!!.name,
+        Log.w(MySQLiteHelper::class.java.name,
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data")
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBJECT)

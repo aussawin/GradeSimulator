@@ -42,7 +42,7 @@ class CourseListActivity : AppCompatActivity() {
         if (intent.extras.getLong("position") != null) {
             if (intent.getBundleExtra("arrayList") != null) {
                 val temp = intent.getBundleExtra("arrayList")
-                obj = temp.getSerializable("arrayList_2") as ArrayList<Course>
+                obj = temp.getSerializable("selected_courselist") as ArrayList<Course>
             }
 
             position = intent.extras.getInt("position")
@@ -83,8 +83,7 @@ class CourseListActivity : AppCompatActivity() {
                         checkBoolean = true
                     }
 
-                    obj
-                            .filter { it.courseNo == message.courseNo }
+                    obj.filter { it.courseNo == message.courseNo }
                             .forEach { checkBoolean = true }
 
                     checkList.add(CheckPosition(courseArray.indexOf(message), checkBoolean))

@@ -9,11 +9,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.Serializable
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_CODE = 111
-    private lateinit var gradeMap: HashMap<Course, Double>
+    private var gradeMap: HashMap<Course, Double> = hashMapOf()
     private var totalGpa: Double = 0.0
     private var totalCredits: Int = 0
     private var lowPro: Boolean = false
@@ -43,9 +44,57 @@ class MainActivity : AppCompatActivity() {
     private val highProRange = 1.75..1.99
     private val lowProRange = 1.50..1.74
 
+    private var dataSource: CourseDataSource? = null
+    private var userCourseList: ArrayList<UserCourse> = arrayListOf()
+    private var registedCourse: ArrayList<String> = arrayListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        dataSource = CourseDataSource(this)
+        dataSource!!.open()
+        dataSource!!.deleteAllData()
+//        dataSource!!.close()
+
+        getDataFromSQLite()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        dataSource!!.open()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        dataSource!!.close()
+    }
+
+    private fun getDataFromSQLite() {
+        dataSource = CourseDataSource(this)
+        dataSource!!.open()
+        if(dataSource!!.readAllSQLData() != null) {
+            registedCourse = arrayListOf()
+            val values = dataSource!!.readAllSQLData()
+
+            for (i in values) {
+                val gradeStr = gradeDoubleToString(i.grade.toDouble())
+                val year = i.groupId / 3 + 1
+                val semester = i.groupId % 3 + 1
+                val requisite = Requisite(year, semester)
+                val tmpCourse = Course(i.courseNo, i.name, i.category, i.credit, i.categoryName, requisite, "")
+                userCourseList.add(UserCourse(tmpCourse,gradeStr,i.grade.toDouble(),i.groupId / 3 + 1,i.groupId % 3 + 1))
+
+//                Log.d("position", "$position, ${i.groupId}")
+            }
+            for(i in userCourseList){
+                Log.d("positionReturn", "${i.course} ${i.yearRegisted} ${i.gradeValue}")
+            }
+            setDetail()
+            setAllData()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,6 +105,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item!!.itemId == R.id.toCouseRegisted){
             val intent = Intent(this, CourseRegistedActivity::class.java)
+            userCourseList.clear()
+            getDataFromSQLite()
+            val args = Bundle()
+            args.putSerializable("tempKey", userCourseList as Serializable)
+            intent.putExtra("userCourselist", args)
 
             startActivityForResult(intent, REQUEST_CODE)
             return true
@@ -65,16 +119,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data!!.extras.get("gradeMap") != null){
-            defaultValue()
-            gradeMap = data.extras.get("gradeMap") as HashMap<Course, Double>
-
-            for (i in gradeMap) {
-                Log.d("gradeMap", i.key.courseNo + ": " + i.value)
-            }
-            setDetail()
-            setAllData()
+        defaultValue()
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            userCourseList.clear()
+            getDataFromSQLite()
         }
     }
 
@@ -95,39 +143,53 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDetail(){
+        var FState = false
         var sumGpa = 0.0
-        for (i in gradeMap){
-            val course = i.key
-            val grade = i.value
-            totalCredits += course.credit
-            sumGpa += grade*course.credit
+        totalCredits = 0
+        var isWithDraw = false
+        Log.d("credits", "${userCourseList.size}")
+        val tmp = arrayListOf<UserCourse>()
+        tmp.addAll(userCourseList)
+        tmp
+                .filter { it.grade == "W" }
+                .forEach {
+                    isWithDraw = true
+                    tmp.remove(it)
+                }
+        for(item in tmp){
+            val latest = tmp.filter { it.course.courseNo == item.course.courseNo }
+                    .maxBy { item ->
+                        (item.yearRegisted-1)*3 + item.semesterRegisted -1 }
 
-            if (grade == 0.0 || grade == -1.0){
-                canGetHonor = false
+            if(item.grade == "F"){
+                FState = true
             }
-
-            when (course.category) {
-                1 -> coreCredits        += course.credit
-                2 -> socialCredits      += course.credit
-                3 -> languageCredits    += course.credit
-                4 -> scienceMathCredits += course.credit
-                5 -> specializeCredits  += course.credit
-                6 -> electiveCredits    += course.credit
-                7 -> internCredits      += course.credit
-                8 -> isCooperative = true
+            if(item == latest){
+                totalCredits += item.course.credit
+                sumGpa += item.gradeValue*item.course.credit
+                when (item.course.category) {
+                    1 -> coreCredits        += item.course.credit
+                    2 -> socialCredits      += item.course.credit
+                    3 -> languageCredits    += item.course.credit
+                    4 -> scienceMathCredits += item.course.credit
+                    5 -> specializeCredits  += item.course.credit
+                    6 -> electiveCredits    += item.course.credit
+                    7 -> internCredits      += item.course.credit
+                    8 -> isCooperative = true
+                }
             }
         }
         totalGpa = DecimalFormat("#.00").format(sumGpa/totalCredits).toDouble()
-        honor = if      (totalGpa in honor1st && canGetHonor) { 1 }
-        else if (totalGpa in honor2nd && canGetHonor) { 2 }
-        else { -1 }
+        honor = if (totalGpa in honor1st && canGetHonor && !isWithDraw && !FState) { 1 }
+                else if (totalGpa in honor2nd && canGetHonor && !isWithDraw && !FState) { 2 }
+                else { -1 }
 
         highPro = totalGpa in highProRange
         lowPro  = totalGpa in lowProRange
     }
 
     private fun setAllData(){
-        var color: Int = 0
+        var color = 0
         if (isCooperative){
             setIfIsCooperative()
         }
@@ -202,5 +264,19 @@ class MainActivity : AppCompatActivity() {
         mainText6.text = "/$electiveCredits_min"
         internCredits_min = 1
         mainText7.text = "/$internCredits_min"
+    }
+
+    private fun gradeDoubleToString(grade: Double): String{
+        return when (grade) {
+            4.0  -> "A"
+            3.5  -> "B+"
+            3.0  -> "B"
+            2.5  -> "C+"
+            2.0  -> "C"
+            1.5  -> "D+"
+            1.0  -> "D"
+            0.0  -> "F"
+            else -> "W"
+        }
     }
 }

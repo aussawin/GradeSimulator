@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.graphics.Typeface
+import android.util.Log
 import android.widget.*
-import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class CustomExpandableListAdapter(private val context: Context,
                                     private val expandableListTitle: List<String>,
-                                    private val expandableListDetail: HashMap<String, List<Course>> = HashMap(),
+                                    private val expandableListDetail: HashMap<String, List<UserCourse>> = HashMap(),
                                     private val courseRegisted: CourseRegistedActivity)
     : BaseExpandableListAdapter() {
     var addSubjectBtn: ImageButton? = null
-    private val gradeMap: HashMap<Course, Double> = hashMapOf()
+//    private val gradeMap: HashMap<Course, Double> = hashMapOf()
 
-    override fun getChild(listPosition: Int, expandedListPosition: Int): Course {
+    override fun getChild(listPosition: Int, expandedListPosition: Int): UserCourse {
         return expandableListDetail[expandableListTitle[listPosition]]!![expandedListPosition]
     }
 
@@ -28,9 +29,10 @@ class CustomExpandableListAdapter(private val context: Context,
 
     @SuppressLint("InflateParams")
     override fun getChildView(listPosition: Int, expandedListPosition: Int, isLastChild: Boolean, convertView: View?, ViewGroup: ViewGroup?): View {
-        val subjCode: String = getChild(listPosition, expandedListPosition).courseNo
-        val subjName: String = getChild(listPosition, expandedListPosition).name
+
         val subject = getChild(listPosition, expandedListPosition)
+        val subjCode: String = subject.course.courseNo
+        val subjName: String = subject.course.name
 
         var tempConvertView = convertView
 
@@ -59,20 +61,29 @@ class CustomExpandableListAdapter(private val context: Context,
                     "D+" -> 1.5
                     "D"  -> 1.0
                     "F"  -> 0.0
-                    else -> -1.0
+                    else -> -0.5
                 }
+                courseRegisted.setGrade(subject.course,gradeValue,gradeStr,listPosition / 3 +1,listPosition % 3 +1)
+//                gradeMap.put(subject.course, gradeValue)
+//
+//                courseRegisted.getGradeMapMethod(gradeMap)
 
-                gradeMap.put(subject, gradeValue)
-
-                courseRegisted.getGradeMapMethod(gradeMap)
+//                Log.d("Dropdown","${graded.selectedItemPosition}")
             }
-        }
 
+        }
+//        graded.isSelected = when()
         val subjCodeView = tempConvertView.findViewById<View>(R.id.subjectCode) as TextView
         val subjNameView = tempConvertView.findViewById<View>(R.id.subjectName) as TextView
         subjNameView.text = subjName
         subjCodeView.text = subjCode
-
+//        gradedText.text = subject.grade
+        var index = Math.abs(((subject.gradeValue-4)*2).toInt())
+        if(subject.grade.equals("F") || subject.grade == "W"){
+            index -= 1
+        }
+        Log.d("spinner setting","$subjCode ${subject.gradeValue} $index")
+        graded.setSelection(index )
         return tempConvertView
     }
 
@@ -93,7 +104,10 @@ class CustomExpandableListAdapter(private val context: Context,
     }
 
     @SuppressLint("InflateParams")
-    override fun getGroupView(listPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
+    override fun getGroupView(listPosition: Int //Year and semester
+                              , isExpanded: Boolean
+                              , convertView: View?
+                              , parent: ViewGroup?): View {
         var tempConvertView = convertView
         val listTitle: String = getGroup(listPosition) as String
 
@@ -105,12 +119,12 @@ class CustomExpandableListAdapter(private val context: Context,
         val listTitleTextView = tempConvertView!!.findViewById<View>(R.id.listTitle) as TextView
         addSubjectBtn = tempConvertView.findViewById<View>(R.id.addSubject) as ImageButton
         addSubjectBtn!!.isFocusable = false
-
+        Log.d("Size","${expandableListDetail.size}")
         addSubjectBtn!!.setOnClickListener {
             val courseForIntent = if (expandableListDetail[expandableListTitle[listPosition]]!!.isEmpty()) {
                 arrayListOf()
             } else {
-                expandableListDetail[expandableListTitle[listPosition]]!! as ArrayList<Course>
+                userCourseToCourse(expandableListDetail[expandableListTitle[listPosition]]!!)
             }
             val positionForIntent = getGroupId(listPosition).toInt()
 
@@ -121,6 +135,14 @@ class CustomExpandableListAdapter(private val context: Context,
         listTitleTextView.text = listTitle
 
         return tempConvertView
+    }
+
+    private fun userCourseToCourse(usercourselist: List<UserCourse>): ArrayList<Course> {
+        val courseArray: ArrayList<Course> = arrayListOf()
+        for(i in usercourselist){
+            courseArray.add(i.course)
+        }
+        return courseArray
     }
 
     override fun hasStableIds(): Boolean {
