@@ -5,7 +5,4 @@
     <item
         android:id="@+id/toCouseRegisted"
         android:title="รายวิชาที่ลงทะเบียน" />
-    <item
-        android:id="@+id/toOthers"
-        android:title="อื่น ๆ" />
 </menu>

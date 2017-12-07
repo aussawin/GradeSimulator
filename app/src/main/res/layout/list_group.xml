@@ -9,6 +9,7 @@
         android:id="@+id/listTitle"
         android:layout_width="326dp"
         android:layout_height="wrap_content"
+        android:background="#E6E6E6"
         android:paddingBottom="10dp"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:paddingTop="10dp"
@@ -19,6 +20,7 @@
         android:layout_width="83dp"
         android:layout_height="39dp"
         android:layout_weight="1"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:background="#E6E6E6"
+        app:srcCompat="@drawable/plus" />
 
 </LinearLayout>

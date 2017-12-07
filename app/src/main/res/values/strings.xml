@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gradesimulator</string>
+    <string name="app_name">Grade Simulator</string>
     <string-array name="grade_array">
         <item>A</item>
         <item>B+</item>

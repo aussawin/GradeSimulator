@@ -206,9 +206,13 @@ class CourseRegistedActivity : AppCompatActivity() {
                     position--
                     val key = positionToYearSemester(position)
                     expandableListDetail!!.remove(key)
+
+                    userCourseList.filter { (it.yearRegisted-1) * 3 + it.semesterRegisted - 1 == position}
+                            .forEach { userCourseList.remove(it) }
                 }
                 item.itemId == R.id.removeAll -> {
                     expandableListDetail = hashMapOf()
+                    userCourseList.clear()
                 }
                 item.itemId == R.id.saveData -> {
                     val intent = Intent(this, MainActivity::class.java)

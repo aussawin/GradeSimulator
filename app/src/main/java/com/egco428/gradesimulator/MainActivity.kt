@@ -1,6 +1,9 @@
 package com.egco428.gradesimulator
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.app.DialogFragment
 import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.Serializable
 import java.text.DecimalFormat
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private var specializeCredits: Int = 0
     private var electiveCredits: Int = 0
     private var internCredits: Int = 0
+    private var freeCourseCredits: Int = 0
 
     private var socialCredits_min: Int = 12
     private var languageCredits_min: Int = 12
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private var specializeCredits_min: Int = 57
     private var electiveCredits_min: Int = 12
     private var internCredits_min: Int = 1
-
+    private var freeCourseCredits_min:Int = 6
     private var canGetHonor = true
     private var isCooperative = false
 
@@ -47,6 +52,9 @@ class MainActivity : AppCompatActivity() {
     private var dataSource: CourseDataSource? = null
     private var userCourseList: ArrayList<UserCourse> = arrayListOf()
     private var registedCourse: ArrayList<String> = arrayListOf()
+    private var riskedCourse: ArrayList<String> = arrayListOf()
+
+    private var greenColor = Color.parseColor("#04B431")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +62,23 @@ class MainActivity : AppCompatActivity() {
 
         dataSource = CourseDataSource(this)
         dataSource!!.open()
-        dataSource!!.deleteAllData()
 //        dataSource!!.close()
-
         getDataFromSQLite()
+        exclamation.setOnClickListener {
+            val dialog = MainActivity.ExclamationDialog()
+            val ft = fragmentManager.beginTransaction()
+            val prev = fragmentManager.findFragmentByTag("dialog")
+            val args = Bundle()
+
+            args.putStringArray("riskedCourses", riskedCourse.toTypedArray())
+            if (prev != null) {
+                ft.remove(prev)
+            }
+            ft.addToBackStack(null)
+            dialog.arguments = args
+            dialog.show(ft, "dialog")
+        }
+
     }
 
     override fun onResume() {
@@ -75,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     private fun getDataFromSQLite() {
         dataSource = CourseDataSource(this)
         dataSource!!.open()
+        riskedCourse.clear()
         if(dataSource!!.readAllSQLData() != null) {
             registedCourse = arrayListOf()
             val values = dataSource!!.readAllSQLData()
@@ -105,6 +127,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item!!.itemId == R.id.toCouseRegisted){
             val intent = Intent(this, CourseRegistedActivity::class.java)
+            defaultValue()
+            riskedCourse.clear()
             userCourseList.clear()
             getDataFromSQLite()
             val args = Bundle()
@@ -140,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         specializeCredits = 0
         electiveCredits = 0
         internCredits = 0
+        freeCourseCredits = 0
     }
 
     private fun setDetail(){
@@ -156,10 +181,20 @@ class MainActivity : AppCompatActivity() {
                     isWithDraw = true
                     tmp.remove(it)
                 }
+
         for(item in tmp){
             val latest = tmp.filter { it.course.courseNo == item.course.courseNo }
                     .maxBy { item ->
                         (item.yearRegisted-1)*3 + item.semesterRegisted -1 }
+            val registedTimes = userCourseList.filter { it.course.courseNo == item.course.courseNo }.size
+
+            if(registedTimes == 2 && latest != null && latest.gradeValue < 1){
+                Log.d("Latest","${latest.gradeValue}")
+                if(!riskedCourse.any { it == latest.course.courseNo }) {
+                    Log.d("Add","Add")
+                    riskedCourse.add(latest.course.courseNo)
+                }
+            }
 
             if(item.grade == "F"){
                 FState = true
@@ -168,17 +203,69 @@ class MainActivity : AppCompatActivity() {
                 totalCredits += item.course.credit
                 sumGpa += item.gradeValue*item.course.credit
                 when (item.course.category) {
-                    1 -> coreCredits        += item.course.credit
-                    2 -> socialCredits      += item.course.credit
-                    3 -> languageCredits    += item.course.credit
-                    4 -> scienceMathCredits += item.course.credit
-                    5 -> specializeCredits  += item.course.credit
-                    6 -> electiveCredits    += item.course.credit
-                    7 -> internCredits      += item.course.credit
+                    1 -> {
+                        if(coreCredits < coreCredits_min){
+                           coreCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += coreCredits_min - coreCredits+item.course.credit
+                        }
+                    }
+                    2 -> {
+                        if(socialCredits < socialCredits_min){
+                            socialCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += socialCredits_min - socialCredits+item.course.credit
+                        }
+                    }
+                    3 ->  {
+                        if(languageCredits < languageCredits_min){
+                            languageCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += languageCredits_min - languageCredits+item.course.credit
+                        }
+                    }
+                    4 -> {
+                        if(scienceMathCredits < scienceMathCredits_min){
+                            scienceMathCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += scienceMathCredits_min - scienceMathCredits+item.course.credit
+                        }
+                    }
+                    5 -> {
+                        if(specializeCredits < specializeCredits_min){
+                            specializeCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += specializeCredits_min - specializeCredits+item.course.credit
+                        }
+                    }
+                    6 -> {
+                        if(electiveCredits < electiveCredits_min){
+                            electiveCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += electiveCredits_min - electiveCredits+item.course.credit
+                        }
+                    }
+                    7 ->{
+                        if(internCredits < internCredits_min){
+                            internCredits  += item.course.credit
+                        }
+                        else {
+                            freeCourseCredits += internCredits_min - internCredits+item.course.credit
+                        }
+                    }
                     8 -> isCooperative = true
                 }
             }
         }
+        exclamation.visibility = if(riskedCourse.size > 0){ View.VISIBLE }
+                                    else { View.GONE}
+
         totalGpa = DecimalFormat("#.00").format(sumGpa/totalCredits).toDouble()
         honor = if (totalGpa in honor1st && canGetHonor && !isWithDraw && !FState) { 1 }
                 else if (totalGpa in honor2nd && canGetHonor && !isWithDraw && !FState) { 2 }
@@ -199,12 +286,19 @@ class MainActivity : AppCompatActivity() {
         valueGPA.text = totalGpa.toString()
         valueCredits.text = totalCredits.toString()
         valueLow.text = if(lowPro) { "ใช่" } else { "ไม่" }
-        color = if(lowPro) { Color.RED } else { Color.BLUE }
+        color = if(lowPro) { Color.RED } else { greenColor }
         valueLow.setTextColor(color)
 
         valueHigh.text = if(highPro) { "ใช่" } else { "ไม่" }
-        color = if(highPro) { Color.RED } else { Color.BLUE }
+        color = if(highPro) { Color.RED } else { greenColor }
         valueHigh.setTextColor(color)
+
+        color = when {
+            totalGpa < 2.00 -> Color.RED
+            totalGpa < 3.00 -> Color.parseColor("#FFBF00")
+            else -> greenColor
+        }
+        valueGPA.setTextColor(color)
 
         valueHonor.text = when (honor) {
             1 -> "อันดับ 1"
@@ -213,39 +307,42 @@ class MainActivity : AppCompatActivity() {
         }
         color = when(honor){
             -1 -> Color.RED
-            else -> Color.BLUE
+            else -> greenColor
         }
         valueHonor.setTextColor(color)
 
         valueCatagory1_1.text = socialCredits.toString()
-        color = if(socialCredits < socialCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(socialCredits < socialCredits_min) { Color.RED } else { greenColor }
         valueCatagory1_1.setTextColor(color)
 
         valueCatagory1_2.text = languageCredits.toString()
-        color = if(languageCredits < languageCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(languageCredits < languageCredits_min) { Color.RED } else { greenColor }
         valueCatagory1_2.setTextColor(color)
 
         valueCatagory1_3.text = scienceMathCredits.toString()
-        color = if(scienceMathCredits < scienceMathCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(scienceMathCredits < scienceMathCredits_min) { Color.RED } else { greenColor }
         valueCatagory1_3.setTextColor(color)
 
         valueCatagory2_1.text = coreCredits.toString()
-        color = if(coreCredits < coreCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(coreCredits < coreCredits_min) { Color.RED } else { greenColor }
         valueCatagory2_1.setTextColor(color)
 
         valueCatagory2_2.text = specializeCredits.toString()
-        color = if(specializeCredits < specializeCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(specializeCredits < specializeCredits_min) { Color.RED } else { greenColor }
         valueCatagory2_2.setTextColor(color)
 
         valueCatagory2_3.text = electiveCredits.toString()
-        color = if(electiveCredits < electiveCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(electiveCredits < electiveCredits_min) { Color.RED } else { greenColor }
         valueCatagory2_3.setTextColor(color)
 
         valueCategory3.text   = internCredits.toString()
-        color = if(internCredits < internCredits_min) { Color.RED } else { Color.BLUE }
+        color = if(internCredits < internCredits_min) { Color.RED } else { greenColor }
         valueCategory3.setTextColor(color)
 
-        valueCategory4.text   = "_"
+        valueCategory4.text   = freeCourseCredits.toString()
+        color = if(freeCourseCredits < freeCourseCredits_min) { Color.RED } else { greenColor }
+        valueCategory4.setTextColor(color)
+
     }
 
     private fun setIfIsCooperative(){
@@ -277,6 +374,19 @@ class MainActivity : AppCompatActivity() {
             1.0  -> "D"
             0.0  -> "F"
             else -> "W"
+        }
+    }
+
+    class ExclamationDialog: DialogFragment() {
+        private lateinit var riskedCourseSet: Array<String>
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            Log.d("Check","Created")
+            val builder = AlertDialog.Builder(activity)
+            riskedCourseSet = arguments.getStringArray("riskedCourses")
+
+            builder.setTitle("รายวิชาที่ไม่ผ่านเกิน 2 ครั้ง")
+                    .setItems(riskedCourseSet,null)
+            return builder.create()
         }
     }
 }

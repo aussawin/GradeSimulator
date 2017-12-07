@@ -12,6 +12,16 @@
         android:orientation="horizontal"
         android:scrollbars="none|horizontal">
 
+        <ImageView
+            android:id="@+id/exclamation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/header2"
+            app:layout_constraintStart_toEndOf="@+id/header2"
+            app:layout_constraintTop_toTopOf="@+id/header2"
+            app:srcCompat="@drawable/exclamation" />
+
         <TextView
             android:id="@+id/header1"
             android:layout_width="wrap_content"
