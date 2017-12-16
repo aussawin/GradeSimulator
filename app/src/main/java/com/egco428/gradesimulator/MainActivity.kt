@@ -52,9 +52,21 @@ class MainActivity : AppCompatActivity() {
     private var dataSource: CourseDataSource? = null
     private var userCourseList: ArrayList<UserCourse> = arrayListOf()
     private var registedCourse: ArrayList<String> = arrayListOf()
-    private var riskedCourse: ArrayList<String> = arrayListOf()
+    private var riskedCourse: ArrayList<String> = arrayListOf() //วิชาที่เสี่ยงจะ 3 ไม้
+    private var normalStatus = true //สถานะนักศึกษาปกติ
+    private var probationTimes = 0
+
+
+    private val lowProbationTime = 2
+    private val highProbationTime = 4
+
+    private val lowProbationGrade = 1.75
+    private val highProbationGrade = 2.00
+    private val retireGrade = 1.5
 
     private var greenColor = Color.parseColor("#04B431")
+    private var eachSemesterGrade = HashMap<Int,Double>()
+    private var eachSemesterSumGrade = HashMap<Int,Double>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,9 +177,13 @@ class MainActivity : AppCompatActivity() {
         electiveCredits = 0
         internCredits = 0
         freeCourseCredits = 0
+        eachSemesterSumGrade.clear()
+        eachSemesterGrade.clear()
+        probationTimes = 0
     }
 
     private fun setDetail(){
+        normalStatus = true
         var FState = false
         var sumGpa = 0.0
         totalCredits = 0
@@ -188,13 +204,19 @@ class MainActivity : AppCompatActivity() {
                         (item.yearRegisted-1)*3 + item.semesterRegisted -1 }
             val registedTimes = userCourseList.filter { it.course.courseNo == item.course.courseNo }.size
 
-            if(registedTimes == 2 && latest != null && latest.gradeValue < 1){
+            if(registedTimes >= 2 && latest != null && latest.gradeValue < 1){
                 Log.d("Latest","${latest.gradeValue}")
                 if(!riskedCourse.any { it == latest.course.courseNo }) {
                     Log.d("Add","Add")
                     riskedCourse.add(latest.course.courseNo)
+                    if (registedTimes > 2){
+                        normalStatus = false
+                    }
                 }
+
             }
+
+
 
             if(item.grade == "F"){
                 FState = true
@@ -273,7 +295,76 @@ class MainActivity : AppCompatActivity() {
 
         highPro = totalGpa in highProRange
         lowPro  = totalGpa in lowProRange
+
+        setProbation()
     }
+
+    private fun getGradebySemester(courseArray: List<UserCourse>, year : Int,semester: Int): Double? {
+        val tmp = ArrayList(courseArray.filter { it.yearRegisted <= year && it.semesterRegisted <= semester })
+        if (tmp.isEmpty()){
+            return null
+        }
+        tmp.removeIf { it.yearRegisted != tmp.filter { it1 -> it1.course.courseNo == it.course.courseNo }.maxBy { it2 -> (it2.yearRegisted-1)*3 + it2.semesterRegisted -1}!!.yearRegisted
+                        || it.semesterRegisted != tmp.filter { it1 -> it1.course.courseNo == it.course.courseNo }.maxBy { it2 -> (it2.yearRegisted-1)*3 + it2.semesterRegisted -1}!!.semesterRegisted}
+
+        return tmp.sumByDouble { it.gradeValue*it.course.credit } / tmp.sumBy { it.course.credit }
+    }
+
+    private fun setProbation(){
+        val normalSemesterCourses = userCourseList.filter { it.semesterRegisted < 3 && it.grade.toUpperCase() != "W" }.sortedBy { it.yearRegisted }.sortedBy { it.semesterRegisted } //getAllSemesters except summer semesters
+
+        val maxPositionCourse = normalSemesterCourses.maxBy { (it.yearRegisted-1)*3 + it.semesterRegisted -1 }
+        val maxPosition = (maxPositionCourse!!.yearRegisted-1)*3 + maxPositionCourse!!.semesterRegisted -1
+
+        for (i in 0..maxPosition) {
+            val year = i / 3 +1
+            val semester = i % 3 +1
+            val gradeAtsemester = getGradebySemester(normalSemesterCourses,year,semester)
+            if(gradeAtsemester != null ){
+
+                val avgGrade = gradeAtsemester
+
+                if (avgGrade < highProbationGrade){
+                    probationTimes++
+                    var remain = 0
+                    if (avgGrade < retireGrade){
+                        normalStatus = false
+                        Log.d("retire", "$i $avgGrade")
+                        valueProbation.text = "ไม่"
+                           valueRemaining.text = "-"
+                    }
+                    else if (avgGrade < lowProbationGrade){
+                        normalStatus = probationTimes <= lowProbationTime
+                        valueProbation.text = "โปรต่ำ"
+                        remain = if (lowProbationTime-probationTimes >= 0){
+                            lowProbationTime-probationTimes
+                        }else {
+                            0
+                        }
+                        valueRemaining.text = "$remain"
+                    }
+                    else {
+                        normalStatus = probationTimes <= highProbationTime
+                        valueProbation.text = "โปรสูง"
+                        remain = if (highProbationTime-probationTimes >= 0){
+                            highProbationTime-probationTimes
+                        }else {
+                            0
+                        }
+                        valueRemaining.text = "$remain"
+                    }
+                }
+                else{
+                    probationTimes = 0
+                    valueProbation.text = "ไม่"
+                    valueRemaining.text = "-"
+                }
+            }
+//                Log.d("probationTime","${probationTimes} ${i} ${eachSemesterSumGrade[i]}")
+        }
+    }
+
+
 
     private fun setAllData(){
         var color = 0
@@ -285,13 +376,13 @@ class MainActivity : AppCompatActivity() {
         }
         valueGPA.text = totalGpa.toString()
         valueCredits.text = totalCredits.toString()
-        valueLow.text = if(lowPro) { "ใช่" } else { "ไม่" }
-        color = if(lowPro) { Color.RED } else { greenColor }
-        valueLow.setTextColor(color)
+//        valueLow.text = if(lowPro) { "ใช่" } else { "ไม่" }
+//        color = if(lowPro) { Color.RED } else { greenColor }
+//        valueLow.setTextColor(color)
 
-        valueHigh.text = if(highPro) { "ใช่" } else { "ไม่" }
-        color = if(highPro) { Color.RED } else { greenColor }
-        valueHigh.setTextColor(color)
+//        valueRemaining.text = if(highPro) { "ใช่" } else { "ไม่" }
+//        color = if(highPro) { Color.RED } else { greenColor }
+//        valueRemaining.setTextColor(color)
 
         color = when {
             totalGpa < 2.00 -> Color.RED
@@ -342,6 +433,16 @@ class MainActivity : AppCompatActivity() {
         valueCategory4.text   = freeCourseCredits.toString()
         color = if(freeCourseCredits < freeCourseCredits_min) { Color.RED } else { greenColor }
         valueCategory4.setTextColor(color)
+
+
+        if(normalStatus){
+            valueStatus.text = "ปกติ"
+            valueStatus.setTextColor(greenColor)
+        }
+        else{
+            valueStatus.text = "พ้นสภาพนักศึกษา"
+            valueStatus.setTextColor(Color.RED)
+        }
 
     }
 

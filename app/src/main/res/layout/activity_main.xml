@@ -86,7 +86,7 @@
             android:text="GPA : "
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainLine1" />
+            app:layout_constraintTop_toBottomOf="@+id/labelStatus" />
 
         <TextView
             android:id="@+id/labelCredits"
@@ -102,14 +102,12 @@
             android:id="@+id/valueGPA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="0.00"
             android:textAlignment="viewEnd"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainLine1" />
+            app:layout_constraintEnd_toEndOf="@+id/valueStatus"
+            app:layout_constraintTop_toTopOf="@+id/labelGPA" />
 
         <TextView
             android:id="@+id/valueCredits"
@@ -136,71 +134,71 @@
             app:layout_constraintTop_toBottomOf="@+id/labelCredits" />
 
         <TextView
-            android:id="@+id/labelLow"
+            android:id="@+id/labelProbation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:text="ติดโปรต่ำ"
+            android:text="ติดวิทยาทัณฑ์(ติดโปร)"
             android:textColor="@android:color/background_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mainLine5" />
 
         <TextView
-            android:id="@+id/labelHigh"
+            android:id="@+id/labelRemaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:text="ติดโปรสูง"
+            android:text="ต้องทำเกรดให้พ้นโปรภายใน"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toStartOf="@+id/labelLow"
-            app:layout_constraintTop_toBottomOf="@+id/labelLow" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelProbation" />
 
         <TextView
             android:id="@+id/labelHonor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:text="เกียรตินิยม"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintStart_toStartOf="@+id/labelHigh"
-            app:layout_constraintTop_toBottomOf="@+id/labelHigh" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelRemaining" />
 
         <TextView
-            android:id="@+id/valueLow"
+            android:id="@+id/valueProbation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginEnd="70dp"
             android:text="ไม่"
+            android:textAlignment="textEnd"
             android:textColor="@android:color/holo_blue_light"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainLine5" />
+            app:layout_constraintTop_toTopOf="@+id/labelProbation" />
 
         <TextView
-            android:id="@+id/valueHigh"
+            android:id="@+id/valueRemaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="ไม่"
-            android:textColor="@android:color/holo_blue_light"
+            android:text="-"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/valueLow"
-            app:layout_constraintTop_toBottomOf="@+id/valueLow" />
+            app:layout_constraintEnd_toEndOf="@+id/valueProbation"
+            app:layout_constraintTop_toTopOf="@+id/labelRemaining" />
 
         <TextView
             android:id="@+id/valueHonor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="ไม่"
+            android:textAlignment="textEnd"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/valueHigh"
-            app:layout_constraintTop_toBottomOf="@+id/valueHigh" />
+            app:layout_constraintEnd_toEndOf="@+id/valueRemaining"
+            app:layout_constraintTop_toTopOf="@+id/labelHonor" />
 
         <TextView
             android:id="@+id/header3"
@@ -491,6 +489,38 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/category3"
             app:layout_constraintTop_toBottomOf="@+id/category3" />
+
+        <TextView
+            android:id="@+id/labelStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:text="สถานะนักศึกษา"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainLine1" />
+
+        <TextView
+            android:id="@+id/valueStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:text="ปกติ"
+            android:textAlignment="textEnd"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelStatus" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="เทอม"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/valueRemaining" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
