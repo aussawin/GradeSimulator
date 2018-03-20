@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private var riskedCourse: ArrayList<String> = arrayListOf() //วิชาที่เสี่ยงจะ 3 ไม้
     private var normalStatus = true //สถานะนักศึกษาปกติ
     private var probationTimes = 0
+    private var noGradeS = 0
 
 
     private val lowProbationTime = 2
@@ -106,6 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDataFromSQLite() {
+        noGradeS = 0
         dataSource = CourseDataSource(this)
         dataSource!!.open()
         riskedCourse.clear()
@@ -163,6 +165,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun defaultValue(){
+        noGradeS = 0
         gradeMap = hashMapOf()
         totalGpa = 0.0
         totalCredits = 0
@@ -222,8 +225,13 @@ class MainActivity : AppCompatActivity() {
                 FState = true
             }
             if(item == latest){
-                totalCredits += item.course.credit
-                sumGpa += item.gradeValue*item.course.credit
+                if (item.grade!="S"){
+                    totalCredits += item.course.credit
+                    sumGpa += item.gradeValue*item.course.credit
+                }
+                else{
+                    noGradeS++
+                }
                 when (item.course.category) {
                     1 -> {
                         if(coreCredits < coreCredits_min){
@@ -295,8 +303,10 @@ class MainActivity : AppCompatActivity() {
 
         highPro = totalGpa in highProRange
         lowPro  = totalGpa in lowProRange
+        if (userCourseList==null){
+            setProbation()
+        }
 
-        setProbation()
     }
 
     private fun getGradebySemester(courseArray: List<UserCourse>, year : Int,semester: Int): Double? {
@@ -311,10 +321,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setProbation(){
+        Log.d("setProbation", "setProbation start")
         val normalSemesterCourses = userCourseList.filter { it.semesterRegisted < 3 && it.grade.toUpperCase() != "W" }.sortedBy { it.yearRegisted }.sortedBy { it.semesterRegisted } //getAllSemesters except summer semesters
-
-        val maxPositionCourse = normalSemesterCourses.maxBy { (it.yearRegisted-1)*3 + it.semesterRegisted -1 }
-        val maxPosition = (maxPositionCourse!!.yearRegisted-1)*3 + maxPositionCourse!!.semesterRegisted -1
+        Log.d("SSSS","XXXXXXXXXXXXXXX" + normalSemesterCourses)
+        val maxPositionCourse = normalSemesterCourses.maxBy { (it.yearRegisted-1)*3 + it.semesterRegisted -1 }!!
+        Log.d("SSSS","XXXXXXXXXXXXXXX" + maxPositionCourse)
+        val maxPosition = (maxPositionCourse.yearRegisted-1)*3 + maxPositionCourse.semesterRegisted -1
 
         for (i in 0..maxPosition) {
             val year = i / 3 +1
@@ -375,7 +387,7 @@ class MainActivity : AppCompatActivity() {
             setIfIsNotCooperative()
         }
         valueGPA.text = totalGpa.toString()
-        valueCredits.text = totalCredits.toString()
+        valueCredits.text = (totalCredits+noGradeS).toString()
 //        valueLow.text = if(lowPro) { "ใช่" } else { "ไม่" }
 //        color = if(lowPro) { Color.RED } else { greenColor }
 //        valueLow.setTextColor(color)
@@ -474,6 +486,7 @@ class MainActivity : AppCompatActivity() {
             1.5  -> "D+"
             1.0  -> "D"
             0.0  -> "F"
+            -0.5  -> "S"
             else -> "W"
         }
     }

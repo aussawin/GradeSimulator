@@ -61,7 +61,8 @@ class CustomExpandableListAdapter(private val context: Context,
                     "D+" -> 1.5
                     "D"  -> 1.0
                     "F"  -> 0.0
-                    else -> -0.5
+                    "S"  -> -0.5
+                    else -> -1.0
                 }
                 courseRegisted.setGrade(subject.course,gradeValue,gradeStr,listPosition / 3 +1,listPosition % 3 +1)
 //                gradeMap.put(subject.course, gradeValue)
@@ -79,7 +80,7 @@ class CustomExpandableListAdapter(private val context: Context,
         subjCodeView.text = subjCode
 //        gradedText.text = subject.grade
         var index = Math.abs(((subject.gradeValue-4)*2).toInt())
-        if(subject.grade.equals("F") || subject.grade == "W"){
+        if(subject.grade.equals("F") || subject.grade == "S" || subject.grade == "W"){
             index -= 1
         }
         Log.d("spinner setting","$subjCode ${subject.gradeValue} $index")
