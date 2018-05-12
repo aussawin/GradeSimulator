@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addTerm"
+        android:title="เพิ่มจำนวนเทอม" />
+    <item
+        android:id="@+id/removeTerm"
+        android:title="ลดจำนวนเทอม" />
+    <item
+        android:id="@+id/removeAll"
+        android:title="ลบทั้งหมด" />
+    <item
+        android:id="@+id/saveData"
+        android:title="เซฟข้อมูล" />
+</menu>

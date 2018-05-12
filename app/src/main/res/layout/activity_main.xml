@@ -1,18 +1,526 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.egco428.gradesimulator.MainActivity">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:scrollbars="none|horizontal">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/exclamation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/header2"
+            app:layout_constraintStart_toEndOf="@+id/header2"
+            app:layout_constraintTop_toTopOf="@+id/header2"
+            app:srcCompat="@drawable/exclamation" />
+
+        <TextView
+            android:id="@+id/header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="รายละเอียด"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/mainLine1"
+            android:layout_width="1000dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/header1"
+            app:layout_constraintTop_toBottomOf="@+id/header1" />
+
+        <View
+            android:id="@+id/mainLine2"
+            android:layout_width="1000dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/header3"
+            app:layout_constraintTop_toBottomOf="@+id/header3" />
+
+        <View
+            android:id="@+id/mainLine3"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/category1"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <View
+            android:id="@+id/mainLine4"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/mainLine3"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <View
+            android:id="@+id/mainLine5"
+            android:layout_width="1000dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/header2"
+            app:layout_constraintTop_toBottomOf="@+id/header2" />
+
+        <TextView
+            android:id="@+id/labelGPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="GPA : "
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelStatus" />
+
+        <TextView
+            android:id="@+id/labelCredits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="หน่วยกิตรวม :"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toStartOf="@+id/labelGPA"
+            app:layout_constraintTop_toBottomOf="@+id/labelGPA" />
+
+        <TextView
+            android:id="@+id/valueGPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00"
+            android:textAlignment="viewEnd"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueStatus"
+            app:layout_constraintTop_toTopOf="@+id/labelGPA" />
+
+        <TextView
+            android:id="@+id/valueCredits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textAlignment="viewEnd"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueGPA"
+            app:layout_constraintTop_toBottomOf="@+id/valueGPA" />
+
+        <TextView
+            android:id="@+id/header2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="สถานะของนักศึกษา"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/header1"
+            app:layout_constraintTop_toBottomOf="@+id/labelCredits" />
+
+        <TextView
+            android:id="@+id/labelProbation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="ติดวิทยาทัณฑ์(ติดโปร)"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainLine5" />
+
+        <TextView
+            android:id="@+id/labelRemaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="ต้องทำเกรดให้พ้นโปรภายใน"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelProbation" />
+
+        <TextView
+            android:id="@+id/labelHonor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="เกียรตินิยม"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelRemaining" />
+
+        <TextView
+            android:id="@+id/valueProbation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="70dp"
+            android:text="ไม่"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelProbation" />
+
+        <TextView
+            android:id="@+id/valueRemaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueProbation"
+            app:layout_constraintTop_toTopOf="@+id/labelRemaining" />
+
+        <TextView
+            android:id="@+id/valueHonor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ไม่"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueRemaining"
+            app:layout_constraintTop_toTopOf="@+id/labelHonor" />
+
+        <TextView
+            android:id="@+id/header3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="จำนวนหน่วยกิตของแต่ละหมวดวิชา"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/header2"
+            app:layout_constraintTop_toBottomOf="@+id/labelHonor" />
+
+        <TextView
+            android:id="@+id/category1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="หมวดวิชาศึกษาทั่วไป"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/header3"
+            app:layout_constraintTop_toBottomOf="@+id/mainLine2" />
+
+        <TextView
+            android:id="@+id/category1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชามนุษย์ศาสตร์ สังคมศาสตร์"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/mainLine3"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <TextView
+            android:id="@+id/category1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาภาษา"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/mainLine3"
+            app:layout_constraintTop_toBottomOf="@+id/category1_1" />
+
+        <TextView
+            android:id="@+id/category1_3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:text="กลุ่มวิชาวิทยาศาสตร์ คณิตศาสตร์"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/mainLine3"
+            app:layout_constraintTop_toBottomOf="@+id/category1_2" />
+
+        <TextView
+            android:id="@+id/mainText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="/12"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toEndOf="@+id/valueCatagory1_1"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <TextView
+            android:id="@+id/mainText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/12"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="@+id/mainText1"
+            app:layout_constraintTop_toBottomOf="@+id/mainText1" />
+
+        <TextView
+            android:id="@+id/mainText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/6"
+            app:layout_constraintStart_toStartOf="@+id/mainText2"
+            app:layout_constraintTop_toBottomOf="@+id/mainText2" />
+
+        <TextView
+            android:id="@+id/category2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="หมวดวิชาเฉพาะด้าน"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/category1"
+            app:layout_constraintTop_toBottomOf="@+id/category1_3" />
+
+        <TextView
+            android:id="@+id/category2_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาแกน"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/mainLine4"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <TextView
+            android:id="@+id/category2_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาเฉพาะด้าน"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/mainLine4"
+            app:layout_constraintTop_toBottomOf="@+id/category2_1" />
+
+        <TextView
+            android:id="@+id/category2_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="กลุ่มวิชาเฉพาะเลือก"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintStart_toEndOf="@+id/mainLine4"
+            app:layout_constraintTop_toBottomOf="@+id/category2_2" />
+
+        <TextView
+            android:id="@+id/mainText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/32"
+            app:layout_constraintStart_toStartOf="@+id/mainText3"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <TextView
+            android:id="@+id/mainText5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/57"
+            app:layout_constraintStart_toStartOf="@+id/mainText4"
+            app:layout_constraintTop_toBottomOf="@+id/mainText4" />
+
+        <TextView
+            android:id="@+id/mainText6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/12"
+            app:layout_constraintStart_toStartOf="@+id/mainText5"
+            app:layout_constraintTop_toBottomOf="@+id/mainText5" />
+
+        <TextView
+            android:id="@+id/valueCatagory1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toEndOf="@+id/category1_1"
+            app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+        <TextView
+            android:id="@+id/valueCatagory1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory1_1"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory1_1" />
+
+        <TextView
+            android:id="@+id/valueCatagory1_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory1_2"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory1_2" />
+
+        <TextView
+            android:id="@+id/valueCatagory2_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory1_3"
+            app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+        <TextView
+            android:id="@+id/valueCatagory2_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory2_1"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory2_1" />
+
+        <TextView
+            android:id="@+id/valueCatagory2_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory2_2"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory2_2" />
+
+        <TextView
+            android:id="@+id/category3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="การฝึกงาน"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/category2"
+            app:layout_constraintTop_toBottomOf="@+id/category2_3" />
+
+        <TextView
+            android:id="@+id/mainText7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/1"
+            app:layout_constraintStart_toStartOf="@+id/mainText6"
+            app:layout_constraintTop_toBottomOf="@+id/mainText6" />
+
+        <TextView
+            android:id="@+id/mainText8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="/6"
+            app:layout_constraintStart_toStartOf="@+id/mainText7"
+            app:layout_constraintTop_toBottomOf="@+id/mainText7" />
+
+        <TextView
+            android:id="@+id/valueCategory3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCatagory2_3"
+            app:layout_constraintTop_toBottomOf="@+id/valueCatagory2_3" />
+
+        <TextView
+            android:id="@+id/valueCategory4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/valueCategory3"
+            app:layout_constraintTop_toBottomOf="@+id/valueCategory3" />
+
+        <TextView
+            android:id="@+id/mainText9"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="10dp"
+            android:text="หมวดวิชาเสรี"
+            android:textColor="@android:color/background_dark"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/category3"
+            app:layout_constraintTop_toBottomOf="@+id/category3" />
+
+        <TextView
+            android:id="@+id/labelStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:text="สถานะนักศึกษา"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainLine1" />
+
+        <TextView
+            android:id="@+id/valueStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="80dp"
+            android:text="ปกติ"
+            android:textAlignment="textEnd"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelStatus" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="เทอม"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/valueRemaining" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
